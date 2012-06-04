@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <title>listbox.js test</title>
+
+  <link href="style/listbox.js.css" rel="stylesheet">
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/listbox.js"></script>
+
+<body>
+  <select id="languages">
+    <option>C++</option>
+    <option>Objective C</option>
+    <option>Python</option>
+    <option>Haskell</option>
+    <option>D</option>
+    <option>PHP</option>
+    <option>SQL</option>
+    <option>Perl</option>
+    <option>Java</option>
+    <option>JavaScript</option>
+    <option>CoffeScript</option>
+  </select>
+
+  <script>
+      $(function() {
+          var listbox = new ListBox({
+              parent: $('#languages'),
+              class: 'xsnippet',
+              withSearchbar: false,
+              multiselect: true
+          })
+      });
+  </script>

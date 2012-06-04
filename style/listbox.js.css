@@ -1,0 +1,32 @@
+html {
+    font-size: 12px;
+}
+
+
+.lbjs {
+    width: 170px;
+    padding: 5px;
+    border: 1px solid #666;
+    border-radius: 5px;
+    background: #F5F5F5;
+}
+
+.lbjs .lbjs-list {
+    height: 300px;
+    overflow: auto;
+}
+
+.lbjs .lbjs-list .lbjs-item {
+    padding: 5px;
+    cursor: pointer;
+}
+
+
+.lbjs .lbjs-list .lbjs-item:hover {
+    background: rgba(113, 141, 202, 0.7);
+}
+
+
+.lbjs .lbjs-list .lbjs-item[selected] {
+    background: rgba(113, 141, 202, 0.5);
+}
