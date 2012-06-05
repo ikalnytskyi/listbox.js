@@ -53,39 +53,47 @@ ListBox.prototype = {
     },
 
     _createList: function() {
-        // create container for items
+        // create container and items
         var list = $('<div class="lbjs-list" />').appendTo(this._listbox)
-
-        // create items
         this._parent.children().each(function() {
-            var item = $('<div class="lbjs-item" />').appendTo(list)
-            item.text($(this).val())
+            $('<div class="lbjs-item" />')
+                .appendTo(list)
+                .text($(this).val())
         })
 
-        // create item handler
+        // set handler
         var instance = this
         $('.lbjs-item').click(function() {
-            var item = $(this).text()
+            instance._multiselect
+                ? instance._toggleItem($(this))
+                : instance._selectItem($(this))
+        })
+    },
 
-            instance._parent.children().each(function() {
-                if ($(this).text() == item)
-                    $(this).attr('selected', 'selected')
-                else
-                    $(this).removeAttr('selected')
-            })
+    _selectItem: function(item) {
+        $('.lbjs-item[selected]').each(function() {
+            $(this).removeAttr('selected')
+        })
 
-            // toggle ``selected`` attr if list is multiselected
-            if (instance._multiselect) {
-                if ($(this).attr('selected'))
-                    $(this).removeAttr('selected')
-                else
-                    $(this).attr('selected', 'selected')
-            } else {
-                $('.lbjs-item[selected]').each(function() {
-                    $(this).removeAttr('selected')
-                })
+        item.attr('selected', 'selected')
 
-                $(this).attr('selected', 'selected')
+        this._parent.children().each(function() {
+            $(this).text() == item.text()
+                ? $(this).attr('selected', 'selected')
+                : $(this).removeAttr('selected')
+        })
+    },
+
+    _toggleItem: function(item) {
+        item.attr('selected')
+            ? item.removeAttr('selected')
+            : item.attr('selected', 'selected')
+
+        this._parent.children().each(function() {
+            if ($(this).text() == item.text()) {
+                item.attr('selected')
+                    ? $(this).attr('selected', 'selected')
+                    : $(this).removeAttr('selected')
             }
         })
     }
