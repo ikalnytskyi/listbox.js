@@ -74,15 +74,17 @@ ListBox.prototype = {
 
             if (searchQuery !== '') {
                 // hide list items which not matched search query
-                instance._list.children().each(function() {
+                instance._list.children().each(function(index) {
                     var text = $(this).text().toLowerCase()
+
                     if (text.search('^' + searchQuery) != -1) {
                         $(this).css('display', 'block')
                     } else {
+                        $(this).css('display', 'none')
+
                         // remove selection from hidden elements to
                         // protect against implicitly influence
                         instance._unselectItem($(this))
-                        $(this).css('display', 'none')
                     }
                 })
             } else {
@@ -96,7 +98,7 @@ ListBox.prototype = {
 
     _createList: function() {
         // create container
-        var list = $('<div>')
+        this._list = $('<div>')
             .addClass(this.LIST_CLASS)
             .appendTo(this._listbox)
 
@@ -105,7 +107,7 @@ ListBox.prototype = {
         this._parent.children().each(function() {
             $('<div>')
                 .addClass(instance.LIST_ITEM_CLASS)
-                .appendTo(list)
+                .appendTo(instance._list)
                 .text($(this).val())
                 .click(function() {
                     instance._multiselect
@@ -113,45 +115,41 @@ ListBox.prototype = {
                         : instance._setItem($(this))
                 })
         })
-        this._list = list // REMOVE IT
     },
 
     _selectItem: function(item) {
         item.attr('selected', 'selected')
 
-        this._parent.children().each(function() {
-            if ($(this).text() == item.text())
-                $(this).attr('selected', 'selected')
-        })
+        // make changes in real list
+        var selectItem = this._parent.children().get(item.index())
+        $(selectItem).attr('selected', 'selected')
     },
 
     _unselectItem: function(item) {
         item.removeAttr('selected')
 
-        this._parent.children().each(function() {
-            if ($(this).text() == item.text())
-                $(this).removeAttr('selected')
-        })
+        // make changes in real list
+        var selectItem = this._parent.children().get(item.index())
+        $(selectItem).removeAttr('selected')
     },
 
+    // this function used by singleselect listbox
     _setItem: function(item) {
-        this._list.children().each(function() {
+        this._list.children('[selected]').each(function() {
             $(this).removeAttr('selected')
         })
 
-        this._parent.children().each(function() {
+        this._parent.children('[selected]').each(function() {
             $(this).removeAttr('selected')
         })
 
         this._selectItem(item)
     },
 
+    // this function used by multiselect listbox
     _toggleItem: function(item) {
         item.attr('selected')
             ? this._unselectItem(item)
             : this._selectItem(item)
     }
 }
-
-
-
