@@ -23,6 +23,11 @@ function ListBox() {
 
 
 ListBox.prototype = {
+    MAIN_CLASS:         'lbjs',
+    LIST_CLASS:         'lbjs-list',
+    LIST_ITEM_CLASS:    'lbjs-item',
+    SEARCHBAR_CLASS:    'lbjs-searchbar',
+
     _init: function () {
         // extract instance arguments
         this._parent = arguments[0]['parent']
@@ -38,7 +43,9 @@ ListBox.prototype = {
     },
 
     _createListbox: function() {
-        this._listbox = $('<div class="lbjs" />').insertAfter(this._parent)
+        this._listbox = $('<div>')
+            .insertAfter(this._parent)
+            .addClass(this.MAIN_CLASS)
 
         if (this._class)
             this._listbox.addClass(this._class)
@@ -50,20 +57,34 @@ ListBox.prototype = {
     _createSearchbar: function() {
         if (this._withSeachbar == false)
             return
+
+        var searchbar_wrapper = $('<div>')
+            .appendTo(this._listbox)
+            .addClass(this.SEARCHBAR_CLASS + '-wrapper')
+
+        var searchbar = $('<input>')
+            .appendTo(searchbar_wrapper)
+            .addClass(this.SEARCHBAR_CLASS)
     },
 
     _createList: function() {
-        // create container and items
-        var list = $('<div class="lbjs-list" />').appendTo(this._listbox)
+        var instance = this
+
+        // create container
+        var list = $('<div>')
+            .appendTo(this._listbox)
+            .addClass(this.LIST_CLASS)
+
+        // create items
         this._parent.children().each(function() {
-            $('<div class="lbjs-item" />')
+            $('<div>')
                 .appendTo(list)
                 .text($(this).val())
+                .addClass(instance.LIST_ITEM_CLASS)
         })
 
         // set handler
-        var instance = this
-        $('.lbjs-item').click(function() {
+        $('.' + this.LIST_ITEM_CLASS).click(function() {
             instance._multiselect
                 ? instance._toggleItem($(this))
                 : instance._selectItem($(this))
@@ -71,7 +92,7 @@ ListBox.prototype = {
     },
 
     _selectItem: function(item) {
-        $('.lbjs-item[selected]').each(function() {
+        $('.' + this.LIST_ITEM_CLASS + '[selected]').each(function() {
             $(this).removeAttr('selected')
         })
 

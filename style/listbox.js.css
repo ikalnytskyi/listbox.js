@@ -18,14 +18,8 @@
  */
 
 
-html {
-    font-size: 12px;
-    color: #333;
-    background: #eee;
-}
-
-
 .lbjs {
+    margin: 0px;
     width: 170px;
     padding: 5px;
     border: 1px solid #CCC;
@@ -34,11 +28,13 @@ html {
 }
 
 .lbjs .lbjs-list {
+    margin: 0px;
     height: 300px;
     overflow: auto;
 }
 
 .lbjs .lbjs-list .lbjs-item {
+    margin: 0px;
     padding: 5px;
     cursor: pointer;
 }
@@ -49,4 +45,18 @@ html {
 
 .lbjs .lbjs-list .lbjs-item[selected] {
     background: rgba(112, 147, 216, 0.5);
+}
+
+
+.lbjs .lbjs-searchbar-wrapper {
+    margin: 0px;
+    margin-right: 12px;
+}
+
+.lbjs .lbjs-searchbar {
+    margin: 0px;
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 3px 5px;
+    border: 1px solid #ccc;
 }

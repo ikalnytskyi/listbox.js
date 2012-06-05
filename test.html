@@ -8,6 +8,14 @@
   <script src="js/jquery.min.js"></script>
   <script src="js/listbox.js"></script>
 
+  <style>
+    html {
+        font-size: 12px;
+        color: #333;
+        background: #eee;
+    }
+  </style>
+
 <body>
 
   <script>
@@ -15,7 +23,7 @@
           var listbox = new ListBox({
               parent: $('#countries'),
               class: 'xsnippet',
-              withSearchbar: false,
+              withSearchbar: true,
               multiselect: false
           })
       });
