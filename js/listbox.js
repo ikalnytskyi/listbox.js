@@ -21,7 +21,6 @@ function ListBox() {
     this._init.apply(this, arguments);
 }
 
-
 ListBox.prototype = {
     MAIN_CLASS:         'lbjs',
     LIST_CLASS:         'lbjs-list',
@@ -30,10 +29,10 @@ ListBox.prototype = {
 
     _init: function () {
         // extract instance arguments
-        this._parent = arguments[0]['parent']
-        this._class = arguments[0]['class']
-        this._withSeachbar = arguments[0]['withSearchbar']
-        this._multiselect = arguments[0]['multiselect']
+        this._parent        = arguments[0]['parent']
+        this._class         = arguments[0]['class']
+        this._withSeachbar  = arguments[0]['withSearchbar']
+        this._multiselect   = arguments[0]['multiselect']
 
         // create new flexible element
         this._createListbox()
@@ -44,8 +43,8 @@ ListBox.prototype = {
 
     _createListbox: function() {
         this._listbox = $('<div>')
-            .insertAfter(this._parent)
             .addClass(this.MAIN_CLASS)
+            .insertAfter(this._parent)
 
         if (this._class)
             this._listbox.addClass(this._class)
@@ -55,69 +54,104 @@ ListBox.prototype = {
     },
 
     _createSearchbar: function() {
-        if (this._withSeachbar == false)
+        if (!this._withSeachbar)
             return
 
+        // searchbar wrapper is needed for properly stretch
+        // the seacrhbar over the listbox width
         var searchbar_wrapper = $('<div>')
-            .appendTo(this._listbox)
             .addClass(this.SEARCHBAR_CLASS + '-wrapper')
+            .appendTo(this._listbox)
 
         var searchbar = $('<input>')
-            .appendTo(searchbar_wrapper)
             .addClass(this.SEARCHBAR_CLASS)
+            .appendTo(searchbar_wrapper)
+
+        // set filter handler
+        var instance = this
+        searchbar.keyup(function() {
+            var searchQuery = $(this).val().toLowerCase()
+
+            if (searchQuery !== '') {
+                // hide list items which not matched search query
+                instance._list.children().each(function() {
+                    var text = $(this).text().toLowerCase()
+                    if (text.search('^' + searchQuery) != -1) {
+                        $(this).css('display', 'block')
+                    } else {
+                        // remove selection from hidden elements to
+                        // protect against implicitly influence
+                        instance._unselectItem($(this))
+                        $(this).css('display', 'none')
+                    }
+                })
+            } else {
+                // make visible all list items
+                instance._list.children().each(function() {
+                    $(this).css('display', 'block')
+                })
+            }
+        })
     },
 
     _createList: function() {
-        var instance = this
-
         // create container
         var list = $('<div>')
-            .appendTo(this._listbox)
             .addClass(this.LIST_CLASS)
+            .appendTo(this._listbox)
 
         // create items
+        var instance = this
         this._parent.children().each(function() {
             $('<div>')
+                .addClass(instance.LIST_ITEM_CLASS)
                 .appendTo(list)
                 .text($(this).val())
-                .addClass(instance.LIST_ITEM_CLASS)
+                .click(function() {
+                    instance._multiselect
+                        ? instance._toggleItem($(this))
+                        : instance._setItem($(this))
+                })
         })
-
-        // set handler
-        $('.' + this.LIST_ITEM_CLASS).click(function() {
-            instance._multiselect
-                ? instance._toggleItem($(this))
-                : instance._selectItem($(this))
-        })
+        this._list = list // REMOVE IT
     },
 
     _selectItem: function(item) {
-        $('.' + this.LIST_ITEM_CLASS + '[selected]').each(function() {
+        item.attr('selected', 'selected')
+
+        this._parent.children().each(function() {
+            if ($(this).text() == item.text())
+                $(this).attr('selected', 'selected')
+        })
+    },
+
+    _unselectItem: function(item) {
+        item.removeAttr('selected')
+
+        this._parent.children().each(function() {
+            if ($(this).text() == item.text())
+                $(this).removeAttr('selected')
+        })
+    },
+
+    _setItem: function(item) {
+        this._list.children().each(function() {
             $(this).removeAttr('selected')
         })
 
-        item.attr('selected', 'selected')
-
-        // make changes in real ``select`` element
         this._parent.children().each(function() {
-            $(this).text() == item.text()
-                ? $(this).attr('selected', 'selected')
-                : $(this).removeAttr('selected')
+            $(this).removeAttr('selected')
         })
+
+        this._selectItem(item)
     },
 
     _toggleItem: function(item) {
         item.attr('selected')
-            ? item.removeAttr('selected')
-            : item.attr('selected', 'selected')
-
-        // make changes in real ``select`` element
-        this._parent.children().each(function() {
-            if ($(this).text() == item.text()) {
-                item.attr('selected')
-                    ? $(this).attr('selected', 'selected')
-                    : $(this).removeAttr('selected')
-            }
-        })
+            ? this._unselectItem(item)
+            : this._selectItem(item)
     }
 }
+
+
+
