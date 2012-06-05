@@ -21,6 +21,7 @@
 html {
     font-size: 12px;
     color: #333;
+    background: #eee;
 }
 
 
@@ -43,9 +44,9 @@ html {
 }
 
 .lbjs .lbjs-list .lbjs-item:hover {
-    background: rgba(113, 141, 202, 0.7);
+    background: rgba(112, 147, 216, 0.9);
 }
 
 .lbjs .lbjs-list .lbjs-item[selected] {
-    background: rgba(113, 141, 202, 0.5);
+    background: rgba(112, 147, 216, 0.5);
 }

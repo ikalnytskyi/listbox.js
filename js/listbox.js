@@ -77,6 +77,7 @@ ListBox.prototype = {
 
         item.attr('selected', 'selected')
 
+        // make changes in real ``select`` element
         this._parent.children().each(function() {
             $(this).text() == item.text()
                 ? $(this).attr('selected', 'selected')
@@ -89,6 +90,7 @@ ListBox.prototype = {
             ? item.removeAttr('selected')
             : item.attr('selected', 'selected')
 
+        // make changes in real ``select`` element
         this._parent.children().each(function() {
             if ($(this).text() == item.text()) {
                 item.attr('selected')
