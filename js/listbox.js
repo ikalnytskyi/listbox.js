@@ -33,12 +33,17 @@ ListBox.prototype = {
         this._class         = arguments[0]['class']
         this._withSeachbar  = arguments[0]['withSearchbar']
         this._multiselect   = arguments[0]['multiselect']
+        this._optional      = arguments[0]['optional']
 
         // create new flexible element
         this._createListbox()
 
         // hide parent element
         this._parent.css('display', 'none')
+
+        // select first element by default
+        if (!this._optional)
+            this._setItem(this._list.children().first())
     },
 
     _createListbox: function() {
@@ -93,6 +98,16 @@ ListBox.prototype = {
                     $(this).css('display', 'block')
                 })
             }
+
+            // select first visible element if none select yet
+            if (!instance._optional) {
+                var isItemSelect =
+                    instance._list.children('[selected]').length > 0
+
+                if (!instance._multiselect && !isItemSelect) {
+                    instance._setItem(instance._list.children(':visible').first())
+                }
+            }
         })
     },
 
@@ -135,13 +150,17 @@ ListBox.prototype = {
 
     // this function used by singleselect listbox
     _setItem: function(item) {
-        this._list.children('[selected]').each(function() {
+
+        var options = this._parent.children('[selected]')
+
+        this._list.children('[selected]').each(function(index) {
             $(this).removeAttr('selected')
+            $(options.get(index)).removeAttr('selected')
         })
 
-        this._parent.children('[selected]').each(function() {
-            $(this).removeAttr('selected')
-        })
+        //this._parent.children().each(function() {
+        //    $(this).removeAttr('selected')
+        //})
 
         this._selectItem(item)
     },
