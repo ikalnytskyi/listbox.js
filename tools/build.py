@@ -14,41 +14,57 @@ import os
 import shutil
 
 
-def make_build_dir(build_dir):
-    '''Make build dir.
-
-    If build dir already exists then remove it and create again.
-    '''
-    if os.path.exists(build_dir):
-        shutil.rmtree(build_dir)
-    os.mkdir(build_dir)
+def generate_output_files(input_files, postfix):
+    filename = '{}' + postfix + '{}'
+    return [filename.format(*os.path.splitext(f)) for f in input_files]
 
 
-def compress(files, tools_dir, build_dir):
-    for file_ in files:
-        filename, extension = os.path.splitext(os.path.basename(file_))
+def compress(input_files, output_files, pathes):
+    assert len(input_files) == len(output_files)
 
-        command = 'java -jar {} {} -o {}'.format(
-            os.path.join(tools_dir, 'yuicompressor.jar'),
-            file_,
-            os.path.join(build_dir, '{}.min{}'.format(filename, extension))
-        )
-        os.system(command)
+    yuicompressor = os.path.join(pathes['tools'], 'yuicompressor.jar')
+    command = 'java -jar ' + yuicompressor + ' {} -o {}'
+
+    for i in range(len(input_files)):
+        in_file = os.path.join(pathes['input'], input_files[i])
+        out_file = os.path.join(pathes['output'], output_files[i])
+
+        os.mkdir(os.path.dirname(out_file))
+        os.system(command.format(in_file, out_file))
+
+
+def print_stats(input_files, output_files, pathes):
+    assert len(input_files) == len(output_files)
+
+    for i in range(len(input_files)):
+        in_file = os.path.join(pathes['input'], input_files[i])
+        out_file = os.path.join(pathes['output'], output_files[i])
+
+        in_size = os.path.getsize(in_file) / 1024.0
+        out_size = os.path.getsize(out_file) / 1024.0
+
+        pattern = '{:>20}: {:.3}kb -> {:.3}kb'
+        print(pattern.format(input_files[i], in_size, out_size))
 
 
 def main():
-    ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    TOOLS_DIR = os.path.join(ROOT, 'tools')
-    BUILD_DIR = os.path.join(ROOT, 'build')
-
-    FILES_TO_COMPRESS = (os.path.join(ROOT, 'src', 'js', 'listbox.js'),
-                         os.path.join(ROOT, 'src', 'styles', 'listbox.css'))
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    pathes = {'tools': os.path.join(root, 'tools'),
+              'input': os.path.join(root, 'src'),
+              'output': os.path.join(root, 'build')}
 
     # recreate build dir
-    make_build_dir(BUILD_DIR)
+    if os.path.exists(pathes['output']):
+        shutil.rmtree(pathes['output'])
+    os.mkdir(pathes['output'])
 
-    # compress files and move results to build dir
-    compress(FILES_TO_COMPRESS, TOOLS_DIR, BUILD_DIR)
+    # files to compress
+    input_files = (os.path.join('js', 'listbox.js'),
+                   os.path.join('styles', 'listbox.css'))
+    output_files = generate_output_files(input_files, '.min')
+
+    compress(input_files, output_files, pathes)
+    print_stats(input_files, output_files, pathes)
 
 
 if __name__ == '__main__':
