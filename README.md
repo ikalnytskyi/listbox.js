@@ -21,7 +21,7 @@ project.
 Link the component and a stylesheet from your page.
 
 ```html
-<link href="style/listbox.js.css" rel="stylesheet">
+<link href="styles/listbox.css" rel="stylesheet">
 <script src="js/jquery.min.js"></script>
 <script src="js/listbox.js"></script>
 ```
