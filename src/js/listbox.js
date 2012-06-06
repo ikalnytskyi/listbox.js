@@ -17,11 +17,11 @@
  * along with listbox.js.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function ListBox() {
+function Listbox() {
     this._init.apply(this, arguments);
 }
 
-ListBox.prototype = {
+Listbox.prototype = {
     MAIN_CLASS:         'lbjs',
     LIST_CLASS:         'lbjs-list',
     LIST_ITEM_CLASS:    'lbjs-item',
