@@ -14,20 +14,40 @@
         color: #333;
         background: #eee;
     }
+
+    .myOwnClass {
+        float: left;
+        margin-right: 30px;
+    }
   </style>
 
 <body>
 
   <script>
       $(function() {
-          var listbox = new Listbox({
+          new Listbox({
               parent: $('#countries'),
               class: 'myOwnClass',
               withSearchbar: true,
               multiselect: false
           })
+
+          new Listbox({
+              parent: $('#languages'),
+              class: 'myOwnClass',
+              withSearchbar: true,
+              multiselect: true
+          })
       });
   </script>
+
+  <select id="languages">
+    <option value="cpp">C++</option>
+    <option value="objc">Objective C</option>
+    <option value="py2">Python 2.x</option>
+    <option value="py3">Python 3.x</option>
+    <option value="js">JavaScript</option>
+  </select>
 
   <select id="countries">
     <option>Afghanistan</option>

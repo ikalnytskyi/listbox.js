@@ -114,7 +114,7 @@ Listbox.prototype = {
             $('<div>')
                 .addClass(instance.LIST_ITEM_CLASS)
                 .appendTo(instance._list)
-                .text($(this).val())
+                .text($(this).text())
                 .click(function() {
                     instance._multiselect
                         ? instance._toggleItem($(this))
@@ -141,17 +141,12 @@ Listbox.prototype = {
 
     // this function used by singleselect listbox
     _setItem: function(item) {
-
         var options = this._parent.children('[selected]')
 
         this._list.children('[selected]').each(function(index) {
             $(this).removeAttr('selected')
             $(options.get(index)).removeAttr('selected')
         })
-
-        //this._parent.children().each(function() {
-        //    $(this).removeAttr('selected')
-        //})
 
         this._selectItem(item)
     },
