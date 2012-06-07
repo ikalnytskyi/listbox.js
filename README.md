@@ -15,6 +15,7 @@ project.
 
 > **NOTE:** Listbox.js depends on [jQuery](http://jquery.com/)
 
+> **NOTE:** This is my first JavaScript code. So don't judge strictly.
 
 ## Usage
 
@@ -62,6 +63,9 @@ Listbox.js uses following *CSS* classes.
 
 /* <div>: list item */
 .lbjs-item {}
+
+/* <div>: disabled list item */
+.lbjs-item[disabled] {}
 
 /* <input>: search query input */
 .lbjs-searchbar {}

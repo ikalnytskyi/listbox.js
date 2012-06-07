@@ -43,8 +43,16 @@
     background: rgba(112, 147, 216, 0.9);
 }
 
+
+
 .lbjs .lbjs-list .lbjs-item[selected] {
     background: rgba(112, 147, 216, 0.5);
+}
+
+.lbjs .lbjs-list .lbjs-item[disabled],
+.lbjs .lbjs-list .lbjs-item[disabled]:hover {
+    padding: 7px 0px;
+    background: none;
 }
 
 

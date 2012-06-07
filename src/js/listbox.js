@@ -67,6 +67,7 @@ Listbox.prototype = {
         var searchbar = $('<input>')
             .addClass(this.SEARCHBAR_CLASS)
             .appendTo(searchbar_wrapper)
+            .attr('placeholder', 'search...')
 
         // set filter handler
         var instance = this
@@ -111,7 +112,7 @@ Listbox.prototype = {
         // create items
         var instance = this
         this._parent.children().each(function() {
-            $('<div>')
+            var item = $('<div>')
                 .addClass(instance.LIST_ITEM_CLASS)
                 .appendTo(instance._list)
                 .text($(this).text())
@@ -120,10 +121,16 @@ Listbox.prototype = {
                         ? instance._toggleItem($(this))
                         : instance._setItem($(this))
                 })
+
+            if ($(this).attr('disabled'))
+                item.attr('disabled', '')
         })
     },
 
     _selectItem: function(item) {
+        if (item.attr('disabled'))
+            return
+
         item.attr('selected', 'selected')
 
         // make changes in real list
@@ -141,6 +148,9 @@ Listbox.prototype = {
 
     // this function used by singleselect listbox
     _setItem: function(item) {
+        if (item.attr('disabled'))
+            return
+
         var options = this._parent.children('[selected]')
 
         this._list.children('[selected]').each(function(index) {
