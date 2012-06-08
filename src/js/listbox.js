@@ -60,13 +60,13 @@ Listbox.prototype = {
 
         // searchbar wrapper is needed for properly stretch
         // the seacrhbar over the listbox width
-        var searchbar_wrapper = $('<div>')
+        var searchbarWrapper = $('<div>')
             .addClass(this.SEARCHBAR_CLASS + '-wrapper')
             .appendTo(this._listbox)
 
         var searchbar = $('<input>')
             .addClass(this.SEARCHBAR_CLASS)
-            .appendTo(searchbar_wrapper)
+            .appendTo(searchbarWrapper)
             .attr('placeholder', 'search...')
 
         // set filter handler
@@ -101,6 +101,9 @@ Listbox.prototype = {
             if (!instance._multiselect && !isItemSelect)
                 instance._setItem(instance._list.children(':visible').first())
         })
+
+        // save for using in _resizeListToListbox()
+        this._searchbarWrapper = searchbarWrapper
     },
 
     _createList: function() {
@@ -108,6 +111,8 @@ Listbox.prototype = {
         this._list = $('<div>')
             .addClass(this.LIST_CLASS)
             .appendTo(this._listbox)
+
+        this._resizeListToListbox()
 
         // create items
         var instance = this
@@ -166,5 +171,15 @@ Listbox.prototype = {
         item.attr('selected')
             ? this._unselectItem(item)
             : this._selectItem(item)
+    },
+
+    _resizeListToListbox: function() {
+        var listHeight = this._listbox.height()
+
+        if (this._withSeachbar) {
+            listHeight -= this._searchbarWrapper.outerHeight(true)
+        }
+
+        this._list.height(listHeight)
     }
 }

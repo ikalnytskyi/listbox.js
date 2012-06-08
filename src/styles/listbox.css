@@ -25,11 +25,11 @@
     border: 1px solid #CCC;
     border-radius: 5px;
     background: #FCFCFC;
+    height: 300px;
 }
 
 .lbjs .lbjs-list {
     margin: 0px;
-    height: 300px;
     overflow: auto;
 }
 
