@@ -33,28 +33,23 @@
     overflow: auto;
 }
 
-.lbjs .lbjs-list .lbjs-item {
+.lbjs .lbjs-list .lbjs-item:not([disabled]) {
     margin: 0px;
     padding: 5px;
     cursor: pointer;
 }
 
-.lbjs .lbjs-list .lbjs-item:hover {
+.lbjs .lbjs-list .lbjs-item:hover:not([disabled]) {
     background: rgba(112, 147, 216, 0.9);
 }
-
-
 
 .lbjs .lbjs-list .lbjs-item[selected] {
     background: rgba(112, 147, 216, 0.5);
 }
 
-.lbjs .lbjs-list .lbjs-item[disabled],
-.lbjs .lbjs-list .lbjs-item[disabled]:hover {
+.lbjs .lbjs-list .lbjs-item[disabled] {
     padding: 7px 0px;
-    background: none;
 }
-
 
 .lbjs .lbjs-searchbar-wrapper {
     margin: 0px;
