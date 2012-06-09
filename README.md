@@ -1,6 +1,6 @@
 # Listbox.js
 
-**Listbox.js** is a simple JavaScript component that provides a more powerful
+**Listbox.js** is a simple jQuery plugin that provides a more powerful
 alternative to the standard ``<select>`` tag. The main problem of ``<select``
 tag is that last one isn't flexible for customization with *CSS*. Listbox.js
 solves this problem. This component runs on top of ``<select>`` tag and
@@ -13,8 +13,6 @@ lists with a lot of items.
 This component was born special for [xsnippet](http://www.xsnippet.org/)
 project.
 
-> **NOTE:** Listbox.js depends on [jQuery](http://jquery.com/)
-
 > **NOTE:** This is my first JavaScript code. So don't judge strictly.
 
 ## Usage
@@ -22,9 +20,9 @@ project.
 Link the component and a stylesheet from your page.
 
 ```html
-<link href="styles/listbox.css" rel="stylesheet">
+<link href="styles/jquery.listbox.css" rel="stylesheet">
 <script src="js/jquery.min.js"></script>
-<script src="js/listbox.js"></script>
+<script src="js/jquery.listbox.js"></script>
 ```
 
 Create Listbox object.
@@ -32,16 +30,15 @@ Create Listbox object.
 ```html
 <script>
     $(function() {
-        var listbox = new Listbox({
-            parent: $('#someId'),   // <select> element
-            class: 'myOwnClass',    // a class which will be added to your list
-            withSearchbar: true,    // use searchbar
-            multiselect: false      // is list multiselect or not?
+        $('select').listbox({
+            'class':        'myOwnClass',
+            'searchbar':    true,
+            'multiselect':  false
         })
-    });
+    })
 </script>
 
-<select id="someId">
+<select>
   <option>Item #1</option>
   <option>Item #2</option>
   <option>Item #3</option>
@@ -75,4 +72,4 @@ Listbox.js uses following *CSS* classes.
 ## Meta
 
 * Author: Igor Kalnitsky <igor@kalnitsky.org>
-* Version: 0.1
+* Version: 0.2

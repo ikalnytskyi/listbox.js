@@ -3,10 +3,10 @@
   <meta charset="UTF-8">
   <title>listbox.js test</title>
 
-  <link href="styles/listbox.css" rel="stylesheet">
+  <link href="styles/jquery.listbox.css" rel="stylesheet">
 
   <script src="js/jquery.min.js"></script>
-  <script src="js/listbox.js"></script>
+  <script src="js/jquery.listbox.js"></script>
 
   <style>
     html {
@@ -25,18 +25,16 @@
 
   <script>
       $(function() {
-          new Listbox({
-              parent: $('#countries'),
-              class: 'myOwnClass',
-              withSearchbar: true,
-              multiselect: false
+          $('#languages').listbox({
+              'class':        'myOwnClass',
+              'searchbar':    false,
+              'multiselect':  true
           })
 
-          new Listbox({
-              parent: $('#languages'),
-              class: 'myOwnClass',
-              withSearchbar: false,
-              multiselect: true
+          $('#countries').listbox({
+              'class':        'myOwnClass',
+              'searchbar':    true,
+              'multiselect':  false
           })
       });
   </script>
