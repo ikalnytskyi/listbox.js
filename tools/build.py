@@ -59,8 +59,8 @@ def main():
     os.mkdir(pathes['output'])
 
     # files to compress
-    input_files = (os.path.join('js', 'listbox.js'),
-                   os.path.join('styles', 'listbox.css'))
+    input_files = (os.path.join('js', 'jquery.listbox.js'),
+                   os.path.join('styles', 'jquery.listbox.css'))
     output_files = generate_output_files(input_files, '.min')
 
     compress(input_files, output_files, pathes)
