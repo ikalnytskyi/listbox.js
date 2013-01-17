@@ -16,7 +16,7 @@
     "licenses": [
         {
             "type": "LGPLv3",
-            "url": "https://github.com/ikalnitsky/listbox.js/blob/LICENSE"
+            "url": "https://raw.github.com/ikalnitsky/listbox.js/master/LICENSE"
         }
     ],
     "homepage": "http://www.kalnitsky.org/projects/listbox.js/en/",
