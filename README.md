@@ -72,4 +72,4 @@ Listbox.js uses following *CSS* classes.
 ## Meta
 
 * Author: Igor Kalnitsky <igor@kalnitsky.org>
-* Version: 0.1.0
+* Version: 0.1.1
