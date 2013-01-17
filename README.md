@@ -1,4 +1,4 @@
-# Listbox.js
+# jQuery Listbox
 
 **Listbox.js** is a simple jQuery plugin that provides a more powerful
 alternative to the standard ``<select>`` tag. The main problem of ``<select``
@@ -72,4 +72,4 @@ Listbox.js uses following *CSS* classes.
 ## Meta
 
 * Author: Igor Kalnitsky <igor@kalnitsky.org>
-* Version: 0.2
+* Version: 0.1

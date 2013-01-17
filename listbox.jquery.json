@@ -1,0 +1,24 @@
+{
+    "name": "listbox",
+    "title": "jQuery Listbox",
+    "description": "Listbox.js is a simple jQuery plugin that provides a more powerful alternative to the standard <select> tag",
+    "version": "0.1.0",
+    "keywords": [
+        "listbox",
+        "combobox",
+        "select"
+    ],
+    "author": {
+        "name": "Igor Kalnitsky",
+        "url": "http://www.kalnitsky.org/about/en/"
+    },
+    "licenses": [
+        {
+            "type": "LGPLv3",
+            "url": "https://github.com/ikalnitsky/listbox.js/blob/LICENSE"
+        }
+    ],
+    "dependencies": {
+        "jquery": ">=1.7"
+    }
+}
