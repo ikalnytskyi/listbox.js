@@ -13,7 +13,7 @@ lists with a lot of items.
 
 This component was born special for XSnippet_ project.
 
-.. note:: This is my first JavaScript code. So don't judge strictly.
+    NOTE: This is my first JavaScript code. So don't judge strictly.
 
 
 Usage
@@ -72,6 +72,20 @@ Listbox.js uses following ``CSS`` classes.
     /* <input>: search query input */
     .lbjs-searchbar {}
 
+
+FAQ
+---
+
+- **How to bind event handler to the ``click`` list item event?**
+
+  Because of Listbox.js dynamically changes DOM you should use jQuery's
+  ``live()`` method:
+
+  .. code:: js
+
+      $('.myListboxClass .lbjs-item').live('click', function() {
+          alert($(this).html());
+      });
 
 Meta
 ----
