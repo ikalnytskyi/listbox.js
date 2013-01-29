@@ -13,7 +13,7 @@ lists with a lot of items.
 
 This component was born special for XSnippet_ project.
 
-    NOTE: This is my first JavaScript code. So don't judge strictly.
+    **NOTE:** This is my first JavaScript code. So don't judge strictly.
 
 
 Usage
@@ -76,7 +76,7 @@ Listbox.js uses following ``CSS`` classes.
 FAQ
 ---
 
-- **How to bind event handler to the ``click`` list item event?**
+- **How to bind event handler to the `click` list item event?**
 
   Because of Listbox.js dynamically changes DOM you should use jQuery's
   ``live()`` method:
@@ -91,6 +91,7 @@ Meta
 ----
 
 * Author: Igor Kalnitsky <igor@kalnitsky.org>
-* Version: 0.1.1
+* Version: 0.1.2
+
 
 .. _XSnippet: http://xsnippet.org/
