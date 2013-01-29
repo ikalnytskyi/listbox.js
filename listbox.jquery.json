@@ -1,6 +1,6 @@
 {
     "name": "listbox",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "title": "Listbox.js",
     "description": "Listbox.js is a simple jQuery plugin that provides a more powerful alternative to the standard `select` tag",
     "keywords": [
