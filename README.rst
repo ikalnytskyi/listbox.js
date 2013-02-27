@@ -66,8 +66,14 @@ Listbox.js uses following ``CSS`` classes.
     /* <div>: list item */
     .lbjs-item {}
 
+    /* <div>: enabled list item */
+    .lbjs-item:not([disabled]) {}
+
     /* <div>: disabled list item */
     .lbjs-item[disabled] {}
+
+    /* <div>: selected list item */
+    .lbjs-item[selected] {}
 
     /* <input>: search query input */
     .lbjs-searchbar {}
