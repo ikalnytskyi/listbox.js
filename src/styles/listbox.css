@@ -32,9 +32,13 @@
     overflow: auto;
 }
 
-.lbjs .lbjs-list .lbjs-item:not([disabled]) {
+
+.lbjs .lbjs-list .lbjs-item {
     margin: 0px;
     padding: 5px;
+}
+
+.lbjs .lbjs-list .lbjs-item:not([disabled]) {
     cursor: pointer;
 }
 
@@ -47,7 +51,8 @@
 }
 
 .lbjs .lbjs-list .lbjs-item[disabled] {
-    padding: 7px 0px;
+    color: #999;
+    cursor: default;
 }
 
 .lbjs .lbjs-searchbar-wrapper {
