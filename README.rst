@@ -93,6 +93,20 @@ FAQ
           alert($(this).html());
       });
 
+- **How to make disabled item?**
+
+  The process is similar to making disabled items in the ``<select>``-tag.
+  All you need is to set the ``disabled`` attribute.
+
+  .. code:: js
+
+      $('.myOwnClass .lbjs-item').each(function () {
+          var value = $(this).html();
+
+          if (['PHP', 'JavaScript'].indexOf(value) != -1)
+              $(this).attr('disabled', '');
+      })
+
 Meta
 ----
 
