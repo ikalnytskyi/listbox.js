@@ -1,20 +1,14 @@
-/*
- * Copyright 2012 Igor Kalnitsky <igor@kalnitsky.org>
+/**
+ * Listbox.js is a simple jQuery plugin that provides a more powerful
+ * alternative to the standard `<select>` tag.
  *
- * This file is part of Listbox.js.
+ * The main problem of <select> tag is that last one isn't flexible for
+ * customization with CSS. Listbox.js solves this problem. This component
+ * runs on top of <select> tag and creates an alternative to the last one
+ * based on <div> tags. It opens up great possibilities for customization.
  *
- * Listbox.js is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- *
- * Listbox.js is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Listbox.js.  If not, see <http://www.gnu.org/licenses/>.
+ * @copyright   (c) 2012, Igor Kalnitsky.
+ * @license     BSD, 3-clause
  */
 
 (function ($) {

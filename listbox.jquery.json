@@ -1,6 +1,6 @@
 {
     "name": "listbox",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "title": "Listbox.js",
     "description": "Listbox.js is a simple jQuery plugin that provides a more powerful alternative to the standard `select` tag",
     "keywords": [
@@ -11,15 +11,15 @@
     "author": {
         "name": "Igor Kalnitsky",
         "email": "igor@kalnitsky.org",
-        "url": "http://www.kalnitsky.org/about/en/"
+        "url": "http://kalnitsky.org/about/en/"
     },
     "licenses": [
         {
-            "type": "LGPLv3",
+            "type": "BSD",
             "url": "https://raw.github.com/ikalnitsky/listbox.js/master/LICENSE"
         }
     ],
-    "homepage": "http://www.kalnitsky.org/projects/listbox.js/en/",
+    "homepage": "http://kalnitsky.org/projects/listbox.js/en/",
     "docs": "https://github.com/ikalnitsky/listbox.js",
     "bugs": "https://github.com/ikalnitsky/listbox.js/issues",
     "download": "https://github.com/ikalnitsky/listbox.js/archive/master.zip",

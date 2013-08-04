@@ -111,7 +111,7 @@ Meta
 ----
 
 * Author: Igor Kalnitsky <igor@kalnitsky.org>
-* Version: 0.1.2
+* Version: 0.1.3
 
 
 .. _XSnippet: http://xsnippet.org/
