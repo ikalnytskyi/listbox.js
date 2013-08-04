@@ -20,184 +20,237 @@
 (function ($) {
 
     /**
-     * A listbox class.
+     * Creates an instance of Listbox.
      *
-     * Receive an elements as first argument, and options as a second.
+     * @constructor
+     * @this {Listbox}
+     * @param {object} domelement DOM element to be converted to the Listbox
+     * @param {object} options an object with Listbox settings
      */
-    function Listbox() {
-        this._init.apply(this, arguments);
+    function Listbox(domelement, options) {
+        // CSS classes used by plugin
+        this.MAIN_CLASS      = 'lbjs';
+        this.LIST_CLASS      = 'lbjs-list';
+        this.LIST_ITEM_CLASS = 'lbjs-item';
+        this.SEARCHBAR_CLASS = 'lbjs-searchbar';
+
+        // internal state members
+        /** @private */ this._parent   = domelement;
+        /** @private */ this._settings = options;
+
+        // initialize object
+        this._init.call(this);
     }
 
-    Listbox.prototype = {
-        //
-        // CSS classes used by plugin
-        //
 
-        MAIN_CLASS:         'lbjs',
-        LIST_CLASS:         'lbjs-list',
-        LIST_ITEM_CLASS:    'lbjs-item',
-        SEARCHBAR_CLASS:    'lbjs-searchbar',
+    /**
+     * Initialize the Circle object. Hide a parent DOM element
+     * and creates the Listbox alternative.
+     *
+     * @private
+     * @this {Listbox}
+     */
+    Listbox.prototype._init = function () {
+        // create new flexible element
+        this._createListbox();
+        // hide parent element
+        this._parent.css('display', 'none');
+        // select first element by default
+        this._setItem(this._list.children().first());
+    }
 
-        //
-        // A plugin internal methods
-        //
 
-        _init: function () {
-            this._parent   = arguments[0];
-            this._settings = arguments[1];
+    /**
+     * Creates a `div`-based listbox.
+     *
+     * @private
+     * @this {Listbox}
+     */
+    Listbox.prototype._createListbox = function () {
+        this._listbox = $('<div>')
+            .addClass(this.MAIN_CLASS)
+            .insertAfter(this._parent);
 
-            // create new flexible element
-            this._createListbox();
-            // hide parent element
-            this._parent.css('display', 'none');
-            // select first element by default
-            this._setItem(this._list.children().first());
-        },
+        if (this._settings['class'] !== null)
+            this._listbox.addClass(this._settings['class']);
 
-        _createListbox: function () {
-            this._listbox = $('<div>')
-                .addClass(this.MAIN_CLASS)
-                .insertAfter(this._parent);
-
-            if (this._settings['class'] !== null)
-                this._listbox.addClass(this._settings['class']);
-
+        if (this._settings['searchbar'])
             this._createSearchbar();
-            this._createList();
-        },
 
-        _createSearchbar: function () {
-            if (!this._settings['searchbar'])
-                return;
+        this._createList();
+    }
 
-            // searchbar wrapper is needed for properly stretch
-            // the seacrhbar over the listbox width
-            var searchbarWrapper = $('<div>')
-                .addClass(this.SEARCHBAR_CLASS + '-wrapper')
-                .appendTo(this._listbox);
+    /**
+     * Creates a Listbox's searchbar.
+     *
+     * @private
+     * @this {Listbox}
+     */
+    Listbox.prototype._createSearchbar = function () {
 
-            var searchbar = $('<input>')
-                .addClass(this.SEARCHBAR_CLASS)
-                .appendTo(searchbarWrapper)
-                .attr('placeholder', 'search...');
+        // searchbar wrapper is needed for properly stretch
+        // the seacrhbar over the listbox width
+        var searchbarWrapper = $('<div>')
+            .addClass(this.SEARCHBAR_CLASS + '-wrapper')
+            .appendTo(this._listbox);
 
-            // set filter handler
-            var instance = this;
-            searchbar.keyup(function () {
-                var searchQuery = $(this).val().toLowerCase();
+        var searchbar = $('<input>')
+            .addClass(this.SEARCHBAR_CLASS)
+            .appendTo(searchbarWrapper)
+            .attr('placeholder', 'search...');
 
-                if (searchQuery !== '') {
-                    // hide list items which not matched search query
-                    instance._list.children().each(function (index) {
-                        var text = $(this).text().toLowerCase();
+        // set filter handler
+        var instance = this;
+        searchbar.keyup(function () {
+            var searchQuery = $(this).val().toLowerCase();
 
-                        if (text.search('^' + searchQuery) != -1) {
-                            $(this).css('display', 'block');
-                        } else {
-                            $(this).css('display', 'none');
+            if (searchQuery !== '') {
+                // hide list items which not matched search query
+                instance._list.children().each(function (index) {
+                    var text = $(this).text().toLowerCase();
 
-                            // remove selection from hidden elements to
-                            // protect against implicitly influence
-                            instance._unselectItem($(this));
-                        }
-                    });
-                } else {
-                    // make visible all list items
-                    instance._list.children().each(function () {
-                        $(this).css('display', 'block')
-                    });
-                }
+                    if (text.search('^' + searchQuery) != -1) {
+                        $(this).css('display', 'block');
+                    } else {
+                        $(this).css('display', 'none');
 
-                // select first visible element if none select yet
-                var isItemSelect = instance._list.children('[selected]').length > 0;
-                if (!instance._settings['multiselect'] && !isItemSelect)
-                    instance._setItem(instance._list.children(':visible').first());
-            });
+                        // remove selection from hidden elements to
+                        // protect against implicitly influence
+                        instance._unselectItem($(this));
+                    }
+                });
+            } else {
+                // make visible all list items
+                instance._list.children().each(function () {
+                    $(this).css('display', 'block')
+                });
+            }
 
-            // save for using in _resizeListToListbox()
-            this._searchbarWrapper = searchbarWrapper;
-        },
+            // select first visible element if none select yet
+            var isItemSelect = instance._list.children('[selected]').length > 0;
+            if (!instance._settings['multiselect'] && !isItemSelect)
+                instance._setItem(instance._list.children(':visible').first());
+        });
 
-        _createList: function () {
-            // create container
-            this._list = $('<div>')
-                .addClass(this.LIST_CLASS)
-                .appendTo(this._listbox);
+        // save for using in _resizeListToListbox()
+        this._searchbarWrapper = searchbarWrapper;
+    }
 
-            this._resizeListToListbox();
 
-            // create items
-            var instance = this;
-            this._parent.children().each(function () {
-                var item = $('<div>')
-                    .addClass(instance.LIST_ITEM_CLASS)
-                    .appendTo(instance._list)
-                    .text($(this).text())
-                    .click(function () {
-                        instance._settings['multiselect']
-                            ? instance._toggleItem($(this))
-                            : instance._setItem($(this));
-                    });
+    /**
+     * Creates a list. The List is an element with list items.
+     *
+     * @private
+     */
+    Listbox.prototype._createList = function () {
+        // create container
+        this._list = $('<div>')
+            .addClass(this.LIST_CLASS)
+            .appendTo(this._listbox);
 
-                if ($(this).attr('disabled'))
-                    item.attr('disabled', '');
-            });
-        },
+        this._resizeListToListbox();
 
-        _selectItem: function (item) {
-            if (item.attr('disabled'))
-                return;
+        // create items
+        var instance = this;
+        this._parent.children().each(function () {
+            var item = $('<div>')
+                .addClass(instance.LIST_ITEM_CLASS)
+                .appendTo(instance._list)
+                .text($(this).text())
+                .click(function () {
+                    instance._settings['multiselect']
+                        ? instance._toggleItem($(this))
+                        : instance._setItem($(this));
+                });
 
-            item.attr('selected', 'selected');
+            if ($(this).attr('disabled'))
+                item.attr('disabled', '');
+        });
+    }
 
-            // make changes in real list
-            var selectItem = this._parent.children().get(item.index());
-            $(selectItem).attr('selected', 'selected');
-        },
 
-        _unselectItem: function (item) {
-            item.removeAttr('selected');
+    /**
+     * @private
+     */
+    Listbox.prototype._selectItem = function (item) {
+        if (item.attr('disabled'))
+            return;
 
-            // make changes in real list
-            var selectItem = this._parent.children().get(item.index());
-            $(selectItem).removeAttr('selected');
-        },
+        item.attr('selected', 'selected');
 
-        // this function used by singleselect listbox
-        _setItem: function (item) {
-            if (item.attr('disabled'))
-                return;
+        // make changes in real list
+        var selectItem = this._parent.children().get(item.index());
+        $(selectItem).attr('selected', 'selected');
+    }
 
-            var options = this._parent.children('[selected]');
 
-            this._list.children('[selected]').each(function (index) {
-                $(this).removeAttr('selected');
-                $(options.get(index)).removeAttr('selected');
-            });
+    /**
+     * @private
+     */
+    Listbox.prototype._unselectItem = function (item) {
+        item.removeAttr('selected');
 
-            this._selectItem(item);
-        },
+        // make changes in real list
+        var selectItem = this._parent.children().get(item.index());
+        $(selectItem).removeAttr('selected');
+    }
 
-        // this function used by multiselect listbox
-        _toggleItem: function (item) {
-            item.attr('selected')
-                ? this._unselectItem(item)
-                : this._selectItem(item);
-        },
 
-        _resizeListToListbox: function () {
-            var listHeight = this._listbox.height();
+    /**
+     * A callback for SingleSelect Listbox. Reset previously
+     * selected item if the new item was selected.
+     *
+     * @param {object} item a DOM object
+     * @private
+     */
+    Listbox.prototype._setItem = function (item) {
+        if (item.attr('disabled'))
+            return;
 
-            if (this._settings['searchbar'])
-                listHeight -= this._searchbarWrapper.outerHeight(true);
+        var options = this._parent.children('[selected]');
 
-            this._list.height(listHeight);
-        }
+        this._list.children('[selected]').each(function (index) {
+            $(this).removeAttr('selected');
+            $(options.get(index)).removeAttr('selected');
+        });
+
+        this._selectItem(item);
+    }
+
+
+    /**
+     * A callback for MultiSelect Listbox. Just toggle item selection.
+     *
+     * @param {object} item a DOM object
+     * @private
+     */
+    Listbox.prototype._toggleItem = function (item) {
+        item.attr('selected')
+            ? this._unselectItem(item)
+            : this._selectItem(item);
+    }
+
+
+    /**
+     * Resize list to lisbox. It's a small hack since I can't
+     * do it with CSS.
+     *
+     * @private
+     */
+    Listbox.prototype._resizeListToListbox = function () {
+        var listHeight = this._listbox.height();
+
+        if (this._settings['searchbar'])
+            listHeight -= this._searchbarWrapper.outerHeight(true);
+
+        this._list.height(listHeight);
     }
 
 
     /**
      * jQuery plugin definition.
+     *
+     * @param {object} options an object with Listbox settings
      */
     $.fn.listbox = function (options) {
         var settings = $.extend({
