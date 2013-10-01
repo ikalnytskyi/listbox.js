@@ -4,6 +4,16 @@ Changelog
 Here you can see the full list of changes between each Listbox.js release.
 
 
+Version 0.2.0
+`````````````
+
+(release date to be announced)
+
+- Refactored the plugin core. There are two classes now: ``SingleSelectLisbox``
+  and ``MultiSelectListbox``, which are inherited from the ``Listbox`` class.
+- Fixed #1: use selection of the parent element during initialization.
+
+
 Version 0.1.3
 `````````````
 

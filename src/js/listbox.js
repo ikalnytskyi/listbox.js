@@ -38,19 +38,15 @@
 
 
     /**
-     * Initialize the Circle object. Hide a parent DOM element
+     * Initialize the Listbox object. Hide a parent DOM element
      * and creates the Listbox alternative.
      *
      * @private
      * @this {Listbox}
      */
     Listbox.prototype._init = function () {
-        // create new flexible element
-        this._createListbox();
-        // hide parent element
-        this._parent.css('display', 'none');
-        // select first element by default
-        this._setItem(this._list.children().first());
+        this._createListbox();                  // create new flexible element
+        this._parent.css('display', 'none');    // hide parent element
     }
 
 
@@ -65,7 +61,7 @@
             .addClass(this.MAIN_CLASS)
             .insertAfter(this._parent);
 
-        if (this._settings['class'] !== null)
+        if (this._settings['class'])
             this._listbox.addClass(this._settings['class']);
 
         if (this._settings['searchbar'])
@@ -81,7 +77,6 @@
      * @this {Listbox}
      */
     Listbox.prototype._createSearchbar = function () {
-
         // searchbar wrapper is needed for properly stretch
         // the seacrhbar over the listbox width
         var searchbarWrapper = $('<div>')
@@ -94,13 +89,13 @@
             .attr('placeholder', 'search...');
 
         // set filter handler
-        var instance = this;
+        var self = this;
         searchbar.keyup(function () {
             var searchQuery = $(this).val().toLowerCase();
 
             if (searchQuery !== '') {
-                // hide list items which not matched search query
-                instance._list.children().each(function (index) {
+                // hide list items which are not matched search query
+                self._list.children().each(function (index) {
                     var text = $(this).text().toLowerCase();
 
                     if (text.search('^' + searchQuery) != -1) {
@@ -110,20 +105,15 @@
 
                         // remove selection from hidden elements to
                         // protect against implicitly influence
-                        instance._unselectItem($(this));
+                        self._unselectItem($(this));
                     }
                 });
             } else {
                 // make visible all list items
-                instance._list.children().each(function () {
+                self._list.children().each(function () {
                     $(this).css('display', 'block')
                 });
             }
-
-            // select first visible element if none select yet
-            var isItemSelect = instance._list.children('[selected]').length > 0;
-            if (!instance._settings['multiselect'] && !isItemSelect)
-                instance._setItem(instance._list.children(':visible').first());
         });
 
         // save for using in _resizeListToListbox()
@@ -145,41 +135,47 @@
         this._resizeListToListbox();
 
         // create items
-        var instance = this;
+        var self = this;
         this._parent.children().each(function () {
             var item = $('<div>')
-                .addClass(instance.LIST_ITEM_CLASS)
-                .appendTo(instance._list)
+                .addClass(self.LIST_ITEM_CLASS)
+                .appendTo(self._list)
                 .text($(this).text())
                 .click(function () {
-                    instance._settings['multiselect']
-                        ? instance._toggleItem($(this))
-                        : instance._setItem($(this));
+                    self._onItemClick($(this))
                 });
 
             if ($(this).attr('disabled'))
                 item.attr('disabled', '');
+
+            if ($(this).attr('selected')) {
+                self._onItemClick(item);
+            }
+                //item.attr('selected', '');
         });
     }
 
 
     /**
+     * Select a given item in a fake and real lists.
+     *
      * @private
+     * @param {object} item an item to be selected
      */
     Listbox.prototype._selectItem = function (item) {
-        if (item.attr('disabled'))
-            return;
-
         item.attr('selected', 'selected');
 
         // make changes in real list
         var selectItem = this._parent.children().get(item.index());
-        $(selectItem).attr('selected', 'selected');
+        $(selectItem).attr('selected', '');
     }
 
 
     /**
+     * Unselect a given item in a fake and real lists.
+     *
      * @private
+     * @param {object} item an item to be unselected
      */
     Listbox.prototype._unselectItem = function (item) {
         item.removeAttr('selected');
@@ -187,41 +183,6 @@
         // make changes in real list
         var selectItem = this._parent.children().get(item.index());
         $(selectItem).removeAttr('selected');
-    }
-
-
-    /**
-     * A callback for SingleSelect Listbox. Reset previously
-     * selected item if the new item was selected.
-     *
-     * @param {object} item a DOM object
-     * @private
-     */
-    Listbox.prototype._setItem = function (item) {
-        if (item.attr('disabled'))
-            return;
-
-        var options = this._parent.children('[selected]');
-
-        this._list.children('[selected]').each(function (index) {
-            $(this).removeAttr('selected');
-            $(options.get(index)).removeAttr('selected');
-        });
-
-        this._selectItem(item);
-    }
-
-
-    /**
-     * A callback for MultiSelect Listbox. Just toggle item selection.
-     *
-     * @param {object} item a DOM object
-     * @private
-     */
-    Listbox.prototype._toggleItem = function (item) {
-        item.attr('selected')
-            ? this._unselectItem(item)
-            : this._selectItem(item);
     }
 
 
@@ -241,6 +202,82 @@
     }
 
 
+
+
+    /**
+     * Creates an instance of SingleSelectListbox.
+     *
+     * @constructor
+     * @this {SingleSelectListbox}
+     * @param {object} domelement DOM element to be converted to the Listbox
+     * @param {object} options an object with Listbox settings
+     */
+    function SingleSelectListbox(domelement, options) {
+        // inherit parent class
+        $.extend(SingleSelectListbox.prototype, Listbox.prototype);
+
+        // define this class related attributes
+        this._selected = null;
+
+        // call parent constructor
+        Listbox.call(this, domelement, options);
+
+        // select first item if none selected
+        if (!this._selected)
+            this._onItemClick(this._list.children().first());
+    }
+
+
+    /**
+     * Reset all items and select a given one.
+     *
+     * @param {object} item a DOM object
+     * @private
+     */
+    SingleSelectListbox.prototype._onItemClick = function (item) {
+        if (item.attr('disabled'))
+            return;
+
+        if (this._selected)
+            this._unselectItem(this._selected);
+
+        this._selectItem(item);
+        this._selected = item;
+    }
+
+
+
+
+    /**
+     * Creates an instance of MultiSelectListbox.
+     *
+     * @constructor
+     * @this {SingleSelectListbox}
+     * @param {object} domelement DOM element to be converted to the Listbox
+     * @param {object} options an object with Listbox settings
+     */
+    function MultiSelectListbox(domelement, options) {
+        $.extend(MultiSelectListbox.prototype, Listbox.prototype);
+        Listbox.call(this, domelement, options);
+    }
+
+
+    /**
+     * Toggle item status.
+     *
+     * @param {object} item a DOM object
+     * @private
+     */
+    MultiSelectListbox.prototype._onItemClick = function (item) {
+        item.attr('selected')
+            ? this._unselectItem(item)
+            : this._selectItem(item)
+        ;
+    }
+
+
+
+
     /**
      * jQuery plugin definition.
      *
@@ -254,7 +291,10 @@
         }, options);
 
         return this.each(function () {
-            new Listbox($(this), settings)
+            settings['multiselect']
+                ? new MultiSelectListbox($(this), settings)
+                : new SingleSelectListbox($(this), settings)
+            ;
         });
     }
 })(jQuery);
