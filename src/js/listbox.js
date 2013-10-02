@@ -243,6 +243,8 @@
 
         this._selectItem(item);
         this._selected = item;
+
+        this._parent.trigger('change');
     }
 
 
@@ -288,6 +290,8 @@
             ? this._unselectItem(item)
             : this._selectItem(item)
         ;
+
+        this._parent.trigger('change');
     }
 
 
