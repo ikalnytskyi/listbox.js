@@ -23,9 +23,12 @@ Link the component and a stylesheet from your page.
 
 .. code:: html
 
-    <link href="styles/jquery.listbox.css" rel="stylesheet">
+    <!-- make sure that jQuery is already included -->
     <script src="js/jquery.min.js"></script>
-    <script src="js/jquery.listbox.js"></script>
+
+    <!-- include listbox plugin and default stylesheet -->
+    <link href="styles/listbox.css" rel="stylesheet">
+    <script src="js/listbox.js"></script>
 
 
 Create Listbox object.
@@ -36,8 +39,7 @@ Create Listbox object.
         $(function() {
             $('select').listbox({
                 'class':        'myOwnClass',
-                'searchbar':    true,
-                'multiselect':  false
+                'searchbar':    true
             })
         })
     </script>
@@ -111,7 +113,7 @@ Meta
 ----
 
 * Author: Igor Kalnitsky <igor@kalnitsky.org>
-* Version: 0.1.3
+* Version: 0.2.0-dev
 
 
 .. _XSnippet: http://xsnippet.org/
