@@ -286,12 +286,11 @@
     $.fn.listbox = function (options) {
         var settings = $.extend({
             'class':        null,
-            'searchbar':    true,
-            'multiselect':  false
+            'searchbar':    true
         }, options);
 
         return this.each(function () {
-            settings['multiselect']
+            $(this).attr('multiple')
                 ? new MultiSelectListbox($(this), settings)
                 : new SingleSelectListbox($(this), settings)
             ;

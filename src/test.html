@@ -34,20 +34,18 @@
       $(function() {
           $('#languages').listbox({
               'class':        'myOwnClass',
-              'searchbar':    false,
-              'multiselect':  true
+              'searchbar':    false
           })
 
           $('#countries').listbox({
               'class':        'myOwnClass',
-              'searchbar':    true,
-              'multiselect':  false
+              'searchbar':    true
           })
       });
   </script>
 
   <form name="test" action="http://127.0.0.1:5000">
-    <select name="lang" id="languages" multiple>
+    <select name="languages" id="languages" multiple>
       <option selected>C++</option>
       <option>Objective C</option>
       <option disabled></option>
