@@ -114,6 +114,11 @@
                     $(this).css('display', 'block')
                 });
             }
+
+            // @hack: call special handler which is used only for SingleSelectListbox
+            //        to prevent situation when none of items are selected
+            if (self.onFilterChange)
+                self.onFilterChange();
         });
 
         // save for using in _resizeListToListbox()
@@ -142,14 +147,14 @@
                 .appendTo(self._list)
                 .text($(this).text())
                 .click(function () {
-                    self._onItemClick($(this))
+                    self.onItemClick($(this))
                 });
 
             if ($(this).attr('disabled'))
                 item.attr('disabled', '');
 
             if ($(this).attr('selected')) {
-                self._onItemClick(item);
+                self.onItemClick(item);
             }
                 //item.attr('selected', '');
         });
@@ -213,28 +218,23 @@
      * @param {object} options an object with Listbox settings
      */
     function SingleSelectListbox(domelement, options) {
-        // inherit parent class
+        // inherit parent class and call it constructor
         $.extend(SingleSelectListbox.prototype, Listbox.prototype);
-
-        // define this class related attributes
-        this._selected = null;
-
-        // call parent constructor
         Listbox.call(this, domelement, options);
 
         // select first item if none selected
         if (!this._selected)
-            this._onItemClick(this._list.children().first());
+            this.onItemClick(this._list.children().first());
     }
 
 
     /**
      * Reset all items and select a given one.
      *
+     * @this {SingleSelectListbox}
      * @param {object} item a DOM object
-     * @private
      */
-    SingleSelectListbox.prototype._onItemClick = function (item) {
+    SingleSelectListbox.prototype.onItemClick = function (item) {
         if (item.attr('disabled'))
             return;
 
@@ -246,17 +246,29 @@
     }
 
 
+    /**
+     * Select first visible item if none selected.
+     *
+     * @this {SingleSelectListbox}
+     */
+    SingleSelectListbox.prototype.onFilterChange = function () {
+        if (!this._selected || !this._selected.is(':visible'))
+            this.onItemClick(this._list.children(':visible').first());
+    }
+
+
 
 
     /**
      * Creates an instance of MultiSelectListbox.
      *
      * @constructor
-     * @this {SingleSelectListbox}
+     * @this {MultiSelectListbox}
      * @param {object} domelement DOM element to be converted to the Listbox
      * @param {object} options an object with Listbox settings
      */
     function MultiSelectListbox(domelement, options) {
+        // inherit parent class and call it constructor
         $.extend(MultiSelectListbox.prototype, Listbox.prototype);
         Listbox.call(this, domelement, options);
     }
@@ -265,10 +277,13 @@
     /**
      * Toggle item status.
      *
+     * @this {MultiSelectListbox}
      * @param {object} item a DOM object
-     * @private
      */
-    MultiSelectListbox.prototype._onItemClick = function (item) {
+    MultiSelectListbox.prototype.onItemClick = function (item) {
+        if (item.attr('disabled'))
+            return;
+
         item.attr('selected')
             ? this._unselectItem(item)
             : this._selectItem(item)
