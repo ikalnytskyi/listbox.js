@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>Listbox.js Tests</title>
+
+  <!-- include jQuery -->
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+
+  <!-- include QUnit framework -->
+  <script src="http://code.jquery.com/qunit/qunit-1.12.0.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.12.0.css">
+
+  <!-- include listbox.js -->
+  <link href="../listbox.js/listbox.css" rel="stylesheet">
+  <script src="../listbox.js/listbox.js"></script>
+
+
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture">
+    <!-- used by construct test cases -->
+    <select id="construct-default"></select>
+    <select id="construct-with-searchbar"></select>
+    <select id="construct-with-class"></select>
+
+    <select id="country">
+      <option>Ukraine</option>
+      <option>Sweden</option>
+      <option>Japan</option>
+    </select>
+
+    <script>
+      $(function() {
+        $('#construct-default').listbox();
+        $('#construct-with-searchbar').listbox({'searchbar': true});
+        $('#construct-with-class').listbox({'class': 'testClass'});
+      });
+    </script>
+  </div>
+
+  <!-- include test suite -->
+  <script src="tests.js"></script>
