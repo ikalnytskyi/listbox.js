@@ -305,7 +305,7 @@
     $.fn.listbox = function (options) {
         var settings = $.extend({
             'class':        null,
-            'searchbar':    true
+            'searchbar':    false
         }, options);
 
         return this.each(function () {

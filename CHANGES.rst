@@ -14,6 +14,7 @@ Version 0.2.0
 - Fixed #1: use selection of the parent element during initialization.
 - ``multiselect`` option doesn't used now.  Use ``multiple`` attribute of
   the ``<select>`` tag instead.
+- ``seachbar`` option is ``false`` by default.
 
 
 Version 0.1.3
