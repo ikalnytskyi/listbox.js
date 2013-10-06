@@ -1,7 +1,8 @@
 Listbox.js
 ==========
 
-.. image:: https://api.travis-ci.org/ikalnitsky/listbox.js.png
+.. image:: https://travis-ci.org/ikalnitsky/listbox.js.png?branch=master
+    :target: https://travis-ci.org/ikalnitsky/listbox.js
 
 
 **Listbox.js** is a simple jQuery plugin that provides a more powerful
