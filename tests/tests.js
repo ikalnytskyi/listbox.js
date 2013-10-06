@@ -177,6 +177,30 @@ test('multiple clicks', function () {
 });
 
 
+test('change event', function () {
+  var select = $('#test')
+    .append('<option>A</option>')
+    .append('<option>B</option>')
+    .append('<option>C</option>')
+    .listbox()
+  ;
+
+  var receiveCounter = 0;
+  select.on('change', function() {
+    receiveCounter++;
+  });
+
+  var list = select.next().find('.lbjs-list');
+  var items = list.children();
+
+  items[0].click();
+  equal(receiveCounter, 1);
+
+  items[1].click();
+  items[2].click();
+
+  equal(receiveCounter, 3);
+});
 
 
 // ==================================================================
@@ -417,4 +441,31 @@ test('multiple clicks', function () {
   equal(selectedItems.length, 1);
   equal(ms_ItemsToVal(selectedItems), 'B');
   equal(ms_ItemsToVal(selectedItems), select.val());
+});
+
+
+test('change event', function () {
+  var select = $('#test')
+    .append('<option>A</option>')
+    .append('<option>B</option>')
+    .append('<option>C</option>')
+
+    .attr('multiple', '').listbox()
+  ;
+
+  var receiveCounter = 0;
+  select.on('change', function() {
+    receiveCounter++;
+  });
+
+  var list = select.next().find('.lbjs-list');
+  var items = list.children();
+
+  items[0].click();
+  equal(receiveCounter, 1);
+
+  items[1].click();
+  items[2].click();
+
+  equal(receiveCounter, 3);
 });

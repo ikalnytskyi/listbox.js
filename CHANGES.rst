@@ -15,6 +15,7 @@ Version 0.2.0
 - ``multiselect`` option doesn't used now.  Use ``multiple`` attribute of
   the ``<select>`` tag instead.
 - ``seachbar`` option is ``false`` by default.
+- Added unit tests.
 
 
 Version 0.1.3
