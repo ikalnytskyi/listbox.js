@@ -212,20 +212,22 @@
     /**
      * Creates an instance of SingleSelectListbox.
      *
+     * Inherit a {Listbox} class.
+     *
      * @constructor
      * @this {SingleSelectListbox}
      * @param {object} domelement DOM element to be converted to the Listbox
      * @param {object} options an object with Listbox settings
      */
     function SingleSelectListbox(domelement, options) {
-        // inherit parent class and call it constructor
-        $.extend(SingleSelectListbox.prototype, Listbox.prototype);
         Listbox.call(this, domelement, options);
 
         // select first item if none selected
         if (!this._selected)
             this.onItemClick(this._list.children().first());
     }
+    SingleSelectListbox.prototype = Object.create(Listbox.prototype);
+    SingleSelectListbox.prototype.constructor = SingleSelectListbox;
 
 
     /**
@@ -267,16 +269,18 @@
     /**
      * Creates an instance of MultiSelectListbox.
      *
+     * Inherit a {Listbox} class.
+     *
      * @constructor
      * @this {MultiSelectListbox}
      * @param {object} domelement DOM element to be converted to the Listbox
      * @param {object} options an object with Listbox settings
      */
     function MultiSelectListbox(domelement, options) {
-        // inherit parent class and call it constructor
-        $.extend(MultiSelectListbox.prototype, Listbox.prototype);
         Listbox.call(this, domelement, options);
     }
+    MultiSelectListbox.prototype = Object.create(Listbox.prototype);
+    MultiSelectListbox.prototype.constructor = MultiSelectListbox;
 
 
     /**
