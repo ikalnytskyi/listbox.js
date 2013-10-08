@@ -238,11 +238,14 @@
         if (item.attr('disabled'))
             return;
 
+        // select a fake item
         if (this._selected)
-            this._unselectItem(this._selected);
+            this._selected.removeAttr('selected');
+        this._selected = item.attr('selected', '');
 
-        this._selectItem(item);
-        this._selected = item;
+        // select a real item
+        var selectItem = this._parent.children().get(item.index());
+        this._parent.val($(selectItem).val());
 
         this._parent.trigger('change');
     }
