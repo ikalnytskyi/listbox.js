@@ -28,25 +28,16 @@ Link the component and a stylesheet from your page.
 .. code:: html
 
     <!-- make sure that jQuery is already included -->
-    <script src="js/jquery.min.js"></script>
+    <script src="/path/to/jquery.js"></script>
 
     <!-- include listbox plugin and default stylesheet -->
-    <link href="styles/listbox.css" rel="stylesheet">
-    <script src="js/listbox.js"></script>
+    <link href="/path/to/listbox.css" rel="stylesheet">
+    <script src="/path/to/listbox.js"></script>
 
 
 Create Listbox object.
 
 .. code:: html
-
-    <script>
-        $(function() {
-            $('select').listbox({
-                'class':        'myOwnClass',
-                'searchbar':    true
-            })
-        })
-    </script>
 
     <select>
       <option>Item #1</option>
@@ -54,6 +45,15 @@ Create Listbox object.
       <option>Item #3</option>
       <option>Item #4</option>
     </select>
+
+    <script>
+        $(function() {
+            $('select').listbox({
+                'class':      'myOwnClass',
+                'searchbar':  true
+            });
+        });
+    </script>
 
 
 Customization
@@ -63,26 +63,13 @@ Listbox.js uses following ``CSS`` classes.
 
 .. code:: css
 
-    /* <div>: component container */
-    .lbjs {}
-
-    /* <div>: container for list items */
-    .lbjs-list {}
-
-    /* <div>: list item */
-    .lbjs-item {}
-
-    /* <div>: enabled list item */
-    .lbjs-item:not([disabled]) {}
-
-    /* <div>: disabled list item */
-    .lbjs-item[disabled] {}
-
-    /* <div>: selected list item */
-    .lbjs-item[selected] {}
-
-    /* <input>: search query input */
-    .lbjs-searchbar {}
+    .lbjs {}                        /* <div>: component container */
+    .lbjs-list {}                   /* <div>: container for list items */
+    .lbjs-item {}                   /* <div>: list item */
+    .lbjs-item:not([disabled]) {}   /* <div>: enabled list item */
+    .lbjs-item[disabled] {}         /* <div>: disabled list item */
+    .lbjs-item[selected] {}         /* <div>: selected list item */
+    .lbjs-searchbar {}              /* <input>: search query input */
 
 
 FAQ
