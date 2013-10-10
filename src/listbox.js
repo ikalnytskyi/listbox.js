@@ -25,30 +25,18 @@
      * @param {object} options an object with Listbox settings
      */
     function Listbox(domelement, options) {
-        // CSS classes used by plugin
+        // css classes used by plugin
         this.MAIN_CLASS      = 'lbjs';
         this.LIST_CLASS      = 'lbjs-list';
         this.LIST_ITEM_CLASS = 'lbjs-item';
         this.SEARCHBAR_CLASS = 'lbjs-searchbar';
 
-        // internal state members
-        /** @private */ this._parent   = domelement;
-        /** @private */ this._settings = options;
+        /** @private */
+        this._parent   = domelement;
+        this._settings = options;
 
-        // initialize object
-        this._init.call(this);
-    }
-
-
-    /**
-     * Initialize the Listbox object. Hide a parent DOM element
-     * and creates the Listbox alternative.
-     *
-     * @private
-     * @this {Listbox}
-     */
-    Listbox.prototype._init = function () {
-        this._createListbox();                // create a new flexible element
+        // construct a fake listbox
+        this._createListbox();                // create a fake listbox
         this._parent.css('display', 'none');  // hide a parent element
     }
 
@@ -62,15 +50,12 @@
     Listbox.prototype._createListbox = function () {
         this._listbox = $('<div>')
             .addClass(this.MAIN_CLASS)
+            .addClass(this._settings['class'])
             .insertAfter(this._parent)
         ;
 
-        if (this._settings['class'])
-            this._listbox.addClass(this._settings['class']);
-
         if (this._settings['searchbar'])
             this._createSearchbar();
-
         this._createList();
     }
 
@@ -292,8 +277,8 @@
      */
     $.fn.listbox = function (options) {
         var settings = $.extend({
-            'class': null,
-            'searchbar': false
+            'class':      null,
+            'searchbar':  false
         }, options);
 
         return this.each(function () {
