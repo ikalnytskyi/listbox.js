@@ -7,9 +7,9 @@
  * runs on top of <select> tag and creates an alternative to the last one
  * based on <div> tags. It opens up great possibilities for customization.
  *
- * @copyright   (c) 2012, Igor Kalnitsky.
- * @license     BSD, 3-clause
- * @version     2.0-dev
+ * @copyright   (c) 2012, Igor Kalnitsky <igor@kalnitsky.org>
+ * @version     0.2.0-dev
+ * @license     BSD
  */
 
 (function ($) {

@@ -1,8 +1,8 @@
 /**
  * Listbox.js, MultiSelect Listbox tests.
  *
- * @copyright   (c) 2012, Igor Kalnitsky.
- * @license     BSD, 3-clause
+ * @copyright   (c) 2012, Igor Kalnitsky <igor@kalnitsky.org>
+ * @license     BSD
  */
 
 module('MultiSelectListbox');

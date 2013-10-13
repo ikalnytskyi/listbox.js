@@ -1,8 +1,10 @@
 Listbox.js
 ==========
 
-.. image:: https://travis-ci.org/ikalnitsky/listbox.js.png?branch=master
-    :target: https://travis-ci.org/ikalnitsky/listbox.js
+:Author:   `Igor Kalnitsky <igor@kalnitsky.org>`_
+:License:  `BSD 3-clause`_
+:Version:  0.2.0-dev
+:Tests:    |travis|
 
 
 **Listbox.js** is a simple jQuery plugin that provides a more powerful
@@ -98,13 +100,11 @@ FAQ
 
           if (['PHP', 'JavaScript'].indexOf(value) != -1)
               $(this).attr('disabled', '');
-      })
-
-Meta
-----
-
-* Author: Igor Kalnitsky <igor@kalnitsky.org>
-* Version: 0.2.0-dev
+      });
 
 
-.. _XSnippet: http://xsnippet.org/
+
+.. _BSD 3-clause: http://raw.github.com/ikalnitsky/listbox.js/master/LICENSE
+.. _XSnippet:     http://xsnippet.org/
+
+.. |travis| image:: https://travis-ci.org/ikalnitsky/listbox.js.png?branch=devel
