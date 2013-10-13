@@ -1,6 +1,6 @@
 {
     "name": "listbox",
-    "version": "0.2.0",
+    "version": "0.3.0-dev",
 
     "title": "Listbox.js",
     "description": "Listbox.js is a simple jQuery plugin that provides a more powerful alternative to the standard `select` tag",
@@ -22,7 +22,7 @@
     "homepage": "http://kalnitsky.org/projects/listbox.js/en/",
     "docs": "https://github.com/ikalnitsky/listbox.js",
     "bugs": "https://github.com/ikalnitsky/listbox.js/issues",
-    "download": "https://github.com/ikalnitsky/listbox.js/archive/0.2.0.zip",
+    "download": "https://github.com/ikalnitsky/listbox.js/archive/master.zip",
 
     "dependencies": {
         "jquery": ">=1.8"

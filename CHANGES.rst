@@ -3,6 +3,13 @@ Changelog
 
 Here you can see the full list of changes between each Listbox.js release.
 
+Version 0.3.0
+`````````````
+
+(release date to be announced)
+
+- Fixed JSHint warnings.
+
 
 Version 0.2.0
 `````````````

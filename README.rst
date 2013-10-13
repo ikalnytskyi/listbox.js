@@ -3,7 +3,7 @@ Listbox.js
 
 :Author:   `Igor Kalnitsky <igor@kalnitsky.org>`_
 :License:  `BSD 3-clause`_
-:Version:  0.2.0
+:Version:  0.3.0-dev
 :Tests:    |travis|
 
 

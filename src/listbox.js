@@ -8,7 +8,7 @@
  * based on <div> tags. It opens up great possibilities for customization.
  *
  * @copyright   (c) 2012, Igor Kalnitsky <igor@kalnitsky.org>
- * @version     0.2.0
+ * @version     0.3.0-dev
  * @license     BSD
  */
 
@@ -54,10 +54,10 @@
             .insertAfter(this._parent)
         ;
 
-        if (this._settings['searchbar'])
+        if (this._settings.searchbar)
             this._createSearchbar();
         this._createList();
-    }
+    };
 
     /**
      * Creates a Listbox's searchbar.
@@ -96,7 +96,7 @@
             } else {
                 // make visible all list items
                 self._list.children().each(function () {
-                    $(this).css('display', 'block')
+                    $(this).css('display', 'block');
                 });
             }
 
@@ -109,7 +109,7 @@
 
         // save for using in _resizeListToListbox()
         this._searchbarWrapper = searchbarWrapper;
-    }
+    };
 
 
     /**
@@ -133,7 +133,7 @@
                 .appendTo(self._list)
                 .text($(this).text())
                 .click(function () {
-                    self.onItemClick($(this))
+                    self.onItemClick($(this));
                 });
 
             if ($(this).attr('disabled'))
@@ -142,7 +142,7 @@
             if ($(this).attr('selected'))
                 self.onItemClick(item);
         });
-    }
+    };
 
 
 
@@ -156,11 +156,11 @@
     Listbox.prototype._resizeListToListbox = function () {
         var listHeight = this._listbox.height();
 
-        if (this._settings['searchbar'])
+        if (this._settings.searchbar)
             listHeight -= this._searchbarWrapper.outerHeight(true);
 
         this._list.height(listHeight);
-    }
+    };
 
 
 
@@ -205,7 +205,7 @@
         this._parent.val(itemToSelect.val());
 
         this._parent.trigger('change');
-    }
+    };
 
 
     /**
@@ -216,7 +216,7 @@
     SingleSelectListbox.prototype.onFilterChange = function () {
         if (!this._selected || !this._selected.is(':visible'))
             this.onItemClick(this._list.children(':visible').first());
-    }
+    };
 
 
 
@@ -265,7 +265,7 @@
 
         this._parent.val(parentValue);
         this._parent.trigger('change');
-    }
+    };
 
 
 
@@ -287,5 +287,5 @@
                 : new SingleSelectListbox($(this), settings)
             ;
         });
-    }
+    };
 })(jQuery);
