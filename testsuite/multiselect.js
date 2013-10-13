@@ -5,7 +5,11 @@
  * @license     BSD
  */
 
-module('MultiSelectListbox');
+module('MultiSelectListbox', {
+    setup: function () {
+        $('#test').attr('multiple', '');
+    }
+});
 
 
 function _itemsToVal(items) {
@@ -20,9 +24,7 @@ function _itemsToVal(items) {
 
 
 test('construct default', function () {
-    var select = $('#test')
-        .attr('multiple', '').listbox()
-    ;
+    var select = $('#test').listbox();
 
     var listbox = select.next();
     equal(listbox.attr('class'), 'lbjs');
@@ -36,9 +38,7 @@ test('construct default', function () {
 
 
 test('construct with searchbar', function () {
-    var select = $('#test')
-        .attr('multiple', '').listbox({'searchbar': true})
-    ;
+    var select = $('#test').listbox({'searchbar': true});
 
     var listbox = select.next();
     var searchbar = listbox.find('.lbjs-searchbar');
@@ -48,9 +48,7 @@ test('construct with searchbar', function () {
 
 
 test('construct with class', function () {
-    var select = $('#test')
-        .attr('multiple', '').listbox({'class': 'testClass'})
-    ;
+    var select = $('#test').listbox({'class': 'testClass'});
 
     var listbox = select.next();
     equal(listbox.attr('class'), 'lbjs testClass');
@@ -62,8 +60,7 @@ test('implicit default value', function () {
         .append('<option>A</option>')
         .append('<option>B</option>')
         .append('<option>C</option>')
-
-        .attr('multiple', '').listbox()
+        .listbox()
     ;
 
     var list = select.next().find('.lbjs-list');
@@ -78,8 +75,7 @@ test('explicit default value', function () {
         .append('<option         >A</option>')
         .append('<option selected>B</option>')
         .append('<option         >C</option>')
-
-        .attr('multiple', '').listbox()
+        .listbox()
     ;
 
     var list = select.next().find('.lbjs-list');
@@ -96,8 +92,7 @@ test('two explicit default values', function () {
         .append('<option         >A</option>')
         .append('<option selected>B</option>')
         .append('<option selected>C</option>')
-
-        .attr('multiple', '').listbox()
+        .listbox()
     ;
 
     var list = select.next().find('.lbjs-list');
@@ -114,8 +109,7 @@ test('one click', function () {
         .append('<option>A</option>')
         .append('<option>B</option>')
         .append('<option>C</option>')
-
-        .attr('multiple', '').listbox()
+        .listbox()
     ;
 
     var list = select.next().find('.lbjs-list');
@@ -135,8 +129,7 @@ test('two clicks', function () {
         .append('<option>A</option>')
         .append('<option>B</option>')
         .append('<option>C</option>')
-
-        .attr('multiple', '').listbox()
+        .listbox()
     ;
 
     var list = select.next().find('.lbjs-list');
@@ -156,8 +149,7 @@ test('two clicks on different items', function () {
         .append('<option>A</option>')
         .append('<option>B</option>')
         .append('<option>C</option>')
-
-        .attr('multiple', '').listbox()
+        .listbox()
     ;
 
     var list = select.next().find('.lbjs-list');
@@ -178,8 +170,7 @@ test('multiple clicks', function () {
         .append('<option>A</option>')
         .append('<option>B</option>')
         .append('<option>C</option>')
-
-        .attr('multiple', '').listbox()
+        .listbox()
     ;
 
     var list = select.next().find('.lbjs-list');
@@ -255,8 +246,7 @@ test('change event', function () {
         .append('<option>A</option>')
         .append('<option>B</option>')
         .append('<option>C</option>')
-
-        .attr('multiple', '').listbox()
+        .listbox()
     ;
 
     var receiveCounter = 0;
