@@ -7,14 +7,17 @@
  * runs on top of <select> tag and creates an alternative to the last one
  * based on <div> tags. It opens up great possibilities for customization.
  *
- * @copyright   (c) 2012, Igor Kalnitsky.
- * @license     BSD, 3-clause
+ * @copyright   (c) 2012, Igor Kalnitsky <igor@kalnitsky.org>
+ * @version     0.2.0
+ * @license     BSD
  */
 
 (function ($) {
+    'use strict';
+
 
     /**
-     * Creates an instance of Listbox.
+     * Create an instance of Listbox.
      *
      * @constructor
      * @this {Listbox}
@@ -22,31 +25,19 @@
      * @param {object} options an object with Listbox settings
      */
     function Listbox(domelement, options) {
-        // CSS classes used by plugin
+        // css classes used by plugin
         this.MAIN_CLASS      = 'lbjs';
         this.LIST_CLASS      = 'lbjs-list';
         this.LIST_ITEM_CLASS = 'lbjs-item';
         this.SEARCHBAR_CLASS = 'lbjs-searchbar';
 
-        // internal state members
-        /** @private */ this._parent   = domelement;
-        /** @private */ this._settings = options;
+        /** @private */
+        this._parent   = domelement;
+        this._settings = options;
 
-        // initialize object
-        this._init.call(this);
-    }
-
-
-    /**
-     * Initialize the Listbox object. Hide a parent DOM element
-     * and creates the Listbox alternative.
-     *
-     * @private
-     * @this {Listbox}
-     */
-    Listbox.prototype._init = function () {
-        this._createListbox();                  // create new flexible element
-        this._parent.css('display', 'none');    // hide parent element
+        // construct a fake listbox
+        this._createListbox();                // create a fake listbox
+        this._parent.css('display', 'none');  // hide a parent element
     }
 
 
@@ -59,14 +50,12 @@
     Listbox.prototype._createListbox = function () {
         this._listbox = $('<div>')
             .addClass(this.MAIN_CLASS)
-            .insertAfter(this._parent);
-
-        if (this._settings['class'])
-            this._listbox.addClass(this._settings['class']);
+            .addClass(this._settings['class'])
+            .insertAfter(this._parent)
+        ;
 
         if (this._settings['searchbar'])
             this._createSearchbar();
-
         this._createList();
     }
 
@@ -102,10 +91,6 @@
                         $(this).css('display', 'block');
                     } else {
                         $(this).css('display', 'none');
-
-                        // remove selection from hidden elements to
-                        // protect against implicitly influence
-                        self._unselectItem($(this));
                     }
                 });
             } else {
@@ -117,8 +102,9 @@
 
             // @hack: call special handler which is used only for SingleSelectListbox
             //        to prevent situation when none of items are selected
-            if (self.onFilterChange)
+            if (self.onFilterChange) {
                 self.onFilterChange();
+            }
         });
 
         // save for using in _resizeListToListbox()
@@ -153,42 +139,12 @@
             if ($(this).attr('disabled'))
                 item.attr('disabled', '');
 
-            if ($(this).attr('selected')) {
+            if ($(this).attr('selected'))
                 self.onItemClick(item);
-            }
-                //item.attr('selected', '');
         });
     }
 
 
-    /**
-     * Select a given item in a fake and real lists.
-     *
-     * @private
-     * @param {object} item an item to be selected
-     */
-    Listbox.prototype._selectItem = function (item) {
-        item.attr('selected', 'selected');
-
-        // make changes in real list
-        var selectItem = this._parent.children().get(item.index());
-        $(selectItem).attr('selected', '');
-    }
-
-
-    /**
-     * Unselect a given item in a fake and real lists.
-     *
-     * @private
-     * @param {object} item an item to be unselected
-     */
-    Listbox.prototype._unselectItem = function (item) {
-        item.removeAttr('selected');
-
-        // make changes in real list
-        var selectItem = this._parent.children().get(item.index());
-        $(selectItem).removeAttr('selected');
-    }
 
 
     /**
@@ -210,7 +166,9 @@
 
 
     /**
-     * Creates an instance of SingleSelectListbox.
+     * Create an instance of SingleSelectListbox.
+     *
+     * Inherit a {Listbox} class.
      *
      * @constructor
      * @this {SingleSelectListbox}
@@ -218,14 +176,14 @@
      * @param {object} options an object with Listbox settings
      */
     function SingleSelectListbox(domelement, options) {
-        // inherit parent class and call it constructor
-        $.extend(SingleSelectListbox.prototype, Listbox.prototype);
         Listbox.call(this, domelement, options);
 
         // select first item if none selected
         if (!this._selected)
             this.onItemClick(this._list.children().first());
     }
+    SingleSelectListbox.prototype = Object.create(Listbox.prototype);
+    SingleSelectListbox.prototype.constructor = SingleSelectListbox;
 
 
     /**
@@ -235,8 +193,7 @@
      * @param {object} item a DOM object
      */
     SingleSelectListbox.prototype.onItemClick = function (item) {
-        if (item.attr('disabled'))
-            return;
+        if (item.attr('disabled')) return;
 
         // select a fake item
         if (this._selected)
@@ -244,8 +201,8 @@
         this._selected = item.attr('selected', '');
 
         // select a real item
-        var selectItem = this._parent.children().get(item.index());
-        this._parent.val($(selectItem).val());
+        var itemToSelect = $(this._parent.children().get(item.index()));
+        this._parent.val(itemToSelect.val());
 
         this._parent.trigger('change');
     }
@@ -265,7 +222,9 @@
 
 
     /**
-     * Creates an instance of MultiSelectListbox.
+     * Create an instance of MultiSelectListbox.
+     *
+     * Inherit a {Listbox} class.
      *
      * @constructor
      * @this {MultiSelectListbox}
@@ -273,10 +232,10 @@
      * @param {object} options an object with Listbox settings
      */
     function MultiSelectListbox(domelement, options) {
-        // inherit parent class and call it constructor
-        $.extend(MultiSelectListbox.prototype, Listbox.prototype);
         Listbox.call(this, domelement, options);
     }
+    MultiSelectListbox.prototype = Object.create(Listbox.prototype);
+    MultiSelectListbox.prototype.constructor = MultiSelectListbox;
 
 
     /**
@@ -286,14 +245,25 @@
      * @param {object} item a DOM object
      */
     MultiSelectListbox.prototype.onItemClick = function (item) {
-        if (item.attr('disabled'))
-            return;
+        if (item.attr('disabled')) return;
 
-        item.attr('selected')
-            ? this._unselectItem(item)
-            : this._selectItem(item)
-        ;
+        var parentItem = $(this._parent.children().get(item.index()));
+        var parentValue = this._parent.val();
 
+        if (item.attr('selected')) {
+            item.removeAttr('selected');
+
+            var removeIndex = parentValue.indexOf(parentItem.val());
+            parentValue.splice(removeIndex, 1);
+        } else {
+            item.attr('selected', '');
+
+            if (!parentValue)
+                parentValue = [];
+            parentValue.push(parentItem.val());
+        }
+
+        this._parent.val(parentValue);
         this._parent.trigger('change');
     }
 
@@ -307,8 +277,8 @@
      */
     $.fn.listbox = function (options) {
         var settings = $.extend({
-            'class':        null,
-            'searchbar':    false
+            'class':      null,
+            'searchbar':  false
         }, options);
 
         return this.each(function () {

@@ -1,0 +1,32 @@
+<!--
+  - Listbox.js testsuite runner.
+  -
+  - @copyright   (c) 2012, Igor Kalnitsky <igor@kalnitsky.org>
+  - @license     BSD
+  -->
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>Listbox.js Testsuite</title>
+
+  <!-- include jQuery -->
+  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+  <!-- include QUnit framework -->
+  <script src="http://code.jquery.com/qunit/qunit-1.12.0.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.12.0.css">
+
+  <!-- include listbox.js -->
+  <link href="../src/listbox.css" rel="stylesheet">
+  <script src="../src/listbox.js"></script>
+
+
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture">
+    <select id="test"></select>
+  </div>
+
+  <!-- include test suite -->
+  <script src="singleselect.js"></script>
+  <script src="multiselect.js"></script>

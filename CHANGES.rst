@@ -7,7 +7,7 @@ Here you can see the full list of changes between each Listbox.js release.
 Version 0.2.0
 `````````````
 
-(release date to be announced)
+Released on October 13, 2013.
 
 - Refactored the plugin core. There are two classes now: ``SingleSelectLisbox``
   and ``MultiSelectListbox``, which are inherited from the ``Listbox`` class.
@@ -21,7 +21,7 @@ Version 0.2.0
 Version 0.1.3
 `````````````
 
-Released on August 4th, 2013.
+Released on August 4, 2013.
 
 - Changed license from LGPLv3 to BSD.
 - Declared each method as prototype property.
@@ -32,7 +32,7 @@ Released on August 4th, 2013.
 Version 0.1.2
 `````````````
 
-Released on January 29th, 2013.
+Released on January 29, 2013.
 
 - Use semicolons in plugin sources.
 - Removed build tool from repo.
@@ -43,7 +43,7 @@ Released on January 29th, 2013.
 Version 0.1.1
 `````````````
 
-Released on January 18th, 2013.
+Released on January 18, 2013.
 
 - «jQuery Listbox» got renamed to «Listbox.js».
 
@@ -51,6 +51,6 @@ Released on January 18th, 2013.
 Version 0.1.0
 `````````````
 
-Released on January 17th, 2013.
+Released on January 17, 2013.
 
 - First public release.
