@@ -15,6 +15,14 @@
 (function ($) {
     'use strict';
 
+    // css classes used by plugin
+    var MAIN_CLASS      = 'lbjs';
+    var LIST_CLASS      = 'lbjs-list';
+    var LIST_ITEM_CLASS = 'lbjs-item';
+    var SEARCHBAR_CLASS = 'lbjs-searchbar';
+
+
+
 
     /**
      * Create an instance of Listbox.
@@ -25,12 +33,6 @@
      * @param {object} options an object with Listbox settings
      */
     function Listbox(domelement, options) {
-        // css classes used by plugin
-        this.MAIN_CLASS      = 'lbjs';
-        this.LIST_CLASS      = 'lbjs-list';
-        this.LIST_ITEM_CLASS = 'lbjs-item';
-        this.SEARCHBAR_CLASS = 'lbjs-searchbar';
-
         /** @private */
         this._parent   = domelement;
         this._settings = options;
@@ -49,7 +51,7 @@
      */
     Listbox.prototype._createListbox = function () {
         this._listbox = $('<div>')
-            .addClass(this.MAIN_CLASS)
+            .addClass(MAIN_CLASS)
             .addClass(this._settings['class'])
             .insertAfter(this._parent)
         ;
@@ -69,11 +71,11 @@
         // searchbar wrapper is needed for properly stretch
         // the seacrhbar over the listbox width
         var searchbarWrapper = $('<div>')
-            .addClass(this.SEARCHBAR_CLASS + '-wrapper')
+            .addClass(SEARCHBAR_CLASS + '-wrapper')
             .appendTo(this._listbox);
 
         var searchbar = $('<input>')
-            .addClass(this.SEARCHBAR_CLASS)
+            .addClass(SEARCHBAR_CLASS)
             .appendTo(searchbarWrapper)
             .attr('placeholder', 'search...');
 
@@ -120,7 +122,7 @@
     Listbox.prototype._createList = function () {
         // create container
         this._list = $('<div>')
-            .addClass(this.LIST_CLASS)
+            .addClass(LIST_CLASS)
             .appendTo(this._listbox);
 
         this._resizeListToListbox();
@@ -129,7 +131,7 @@
         var self = this;
         this._parent.children().each(function () {
             var item = $('<div>')
-                .addClass(self.LIST_ITEM_CLASS)
+                .addClass(LIST_ITEM_CLASS)
                 .appendTo(self._list)
                 .text($(this).text())
                 .click(function () {
