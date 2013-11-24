@@ -118,6 +118,7 @@
      * Creates a list. The List is an element with list items.
      *
      * @private
+     * @this {Listbox}
      */
     Listbox.prototype._createList = function () {
         // create container
@@ -130,20 +131,47 @@
         // create items
         var self = this;
         this._parent.children().each(function () {
-            var item = $('<div>')
-                .addClass(LIST_ITEM_CLASS)
-                .appendTo(self._list)
-                .text($(this).text())
-                .click(function () {
-                    self.onItemClick($(this));
-                });
-
-            if ($(this).attr('disabled'))
-                item.attr('disabled', '');
-
-            if ($(this).attr('selected'))
-                self.onItemClick(item);
+            self.addItem($(this));
         });
+    };
+
+
+
+
+    /**
+     * Add item to the listbox.
+     *
+     * @this {Listbox}
+     * @param {object} parentItem DOM element of the parent options
+     */
+    Listbox.prototype.addItem = function (parentItem) {
+        var self = this;
+        var item = $('<div>')
+            .addClass(LIST_ITEM_CLASS)
+            .appendTo(this._list)
+            .text(parentItem.text())
+            .click(function () {
+                self.onItemClick($(this));
+            });
+
+        if (parentItem.attr('disabled'))
+            item.attr('disabled', '');
+
+        if (parentItem.attr('selected'))
+            this.onItemClick(item);
+    };
+
+
+
+
+    /**
+     * Remove item from the listbox.
+     *
+     * @this {Listbox}
+     * @param {object} parentItem DOM element of the parent options
+     */
+    Listbox.prototype.removeItem = function (parentItem) {
+        // @todo: implement
     };
 
 
