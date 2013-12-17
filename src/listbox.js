@@ -15,6 +15,25 @@
 (function ($) {
     'use strict';
 
+
+
+    /**
+     * Inherit the prototype methods from one constructor into another.
+     * The prototype of `constructor` will be set to a new object created
+     * from `superConstructor`.
+     *
+     * As an additional convenience, `superConstructor` will be accessible
+     * through the `constructor.super_` property.
+     */
+    function inherits(constructor, superConstructor) {
+        constructor.prototype = Object.create(superConstructor.prototype);
+        constructor.prototype.constructor = constructor;
+        constructor.prototype.super_ = superConstructor;
+    }
+
+
+
+
     // css classes used by plugin
     var MAIN_CLASS      = 'lbjs';
     var LIST_CLASS      = 'lbjs-list';
@@ -206,14 +225,13 @@
      * @param {object} options an object with Listbox settings
      */
     function SingleSelectListbox(domelement, options) {
-        Listbox.call(this, domelement, options);
+        this.super_.call(this, domelement, options);
 
         // select first item if none selected
         if (!this._selected)
             this.onItemClick(this._list.children().first());
     }
-    SingleSelectListbox.prototype = Object.create(Listbox.prototype);
-    SingleSelectListbox.prototype.constructor = SingleSelectListbox;
+    inherits(SingleSelectListbox, Listbox);
 
 
     /**
@@ -262,10 +280,11 @@
      * @param {object} options an object with Listbox settings
      */
     function MultiSelectListbox(domelement, options) {
-        Listbox.call(this, domelement, options);
+        this.super_.call(this, domelement, options);
     }
-    MultiSelectListbox.prototype = Object.create(Listbox.prototype);
-    MultiSelectListbox.prototype.constructor = MultiSelectListbox;
+    inherits(MultiSelectListbox, Listbox);
+
+
 
 
     /**
@@ -312,10 +331,10 @@
         }, options);
 
         return this.each(function () {
-            $(this).attr('multiple')
-                ? new MultiSelectListbox($(this), settings)
-                : new SingleSelectListbox($(this), settings)
-            ;
+            if ($(this).attr('multiple'))
+                new MultiSelectListbox($(this), settings);
+            else
+                new SingleSelectListbox($(this), settings);
         });
     };
 })(jQuery);
