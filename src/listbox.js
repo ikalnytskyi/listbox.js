@@ -17,6 +17,14 @@
 
 
 
+    // CSS classes used by Listbox.js
+    var MAIN_CLASS      = 'lbjs';
+    var LIST_CLASS      = 'lbjs-list';
+    var LIST_ITEM_CLASS = 'lbjs-item';
+    var SEARCHBAR_CLASS = 'lbjs-searchbar';
+
+
+
     /**
      * Inherit the prototype methods from one constructor into another.
      * The prototype of `constructor` will be set to a new object created
@@ -34,17 +42,10 @@
 
 
 
-    // css classes used by plugin
-    var MAIN_CLASS      = 'lbjs';
-    var LIST_CLASS      = 'lbjs-list';
-    var LIST_ITEM_CLASS = 'lbjs-item';
-    var SEARCHBAR_CLASS = 'lbjs-searchbar';
-
-
-
-
     /**
-     * Create an instance of Listbox.
+     * Create an instance of Listbox. The constructor makes div-based
+     * listbox alternative for the sandard's `<select>` tag, hide parent
+     * element and place the alternative on the parent place.
      *
      * @constructor
      * @this {Listbox}
@@ -52,11 +53,14 @@
      * @param {object} options an object with Listbox settings
      */
     function Listbox(domelement, options) {
-        /** @private */
-        this._parent   = domelement;
-        this._settings = options;
+        var settings = $.extend({
+            'class':      null,
+            'searchbar':  false
+        }, options);
 
-        // construct a fake listbox
+        this._parent   = domelement;
+        this._settings = settings;
+
         this._createListbox();                // create a fake listbox
         this._parent.css('display', 'none');  // hide a parent element
     }
@@ -325,16 +329,11 @@
      * @param {object} options an object with Listbox settings
      */
     $.fn.listbox = function (options) {
-        var settings = $.extend({
-            'class':      null,
-            'searchbar':  false
-        }, options);
-
         return this.each(function () {
             if ($(this).attr('multiple'))
-                new MultiSelectListbox($(this), settings);
+                new MultiSelectListbox($(this), options);
             else
-                new SingleSelectListbox($(this), settings);
+                new SingleSelectListbox($(this), options);
         });
     };
 })(jQuery);
