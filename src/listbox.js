@@ -16,7 +16,6 @@
     'use strict';
 
 
-
     // CSS classes used by Listbox.js
     var MAIN_CLASS      = 'lbjs';
     var LIST_CLASS      = 'lbjs-list';
@@ -38,7 +37,6 @@
         constructor.prototype.constructor = constructor;
         constructor.prototype.super_ = superConstructor;
     }
-
 
 
 
@@ -66,8 +64,10 @@
     }
 
 
+
     /**
-     * Creates a `div`-based listbox.
+     * Creates a `div`-based listbox, which includes such things as
+     * container, listbox itself and searchbar as an optional element.
      *
      * @private
      * @this {Listbox}
@@ -89,6 +89,7 @@
      *
      * @private
      * @this {Listbox}
+     * @TODO: critical to rewrite this piece of shit
      */
     Listbox.prototype._createSearchbar = function () {
         // searchbar wrapper is needed for properly stretch
@@ -138,7 +139,7 @@
 
 
     /**
-     * Creates a list. The List is an element with list items.
+     * Creates a listbox itself.
      *
      * @private
      * @this {Listbox}
@@ -324,16 +325,16 @@
 
 
     /**
-     * jQuery plugin definition.
+     * jQuery plugin definition. Please note, that jQuery's `each()` method
+     * returns `false` to stop iteration; otherwise it should return `true`.
      *
      * @param {object} options an object with Listbox settings
      */
     $.fn.listbox = function (options) {
         return this.each(function () {
             if ($(this).attr('multiple'))
-                new MultiSelectListbox($(this), options);
-            else
-                new SingleSelectListbox($(this), options);
+                return !!new MultiSelectListbox($(this), options);
+            return !!new SingleSelectListbox($(this), options);
         });
     };
 })(jQuery);
